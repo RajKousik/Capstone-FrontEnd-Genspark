@@ -5,6 +5,7 @@
   z-index: 1000; /* Ensure the navbar is on top of other content */
   background-color: #282828;
   color: #fff;
+  height: 56px;
 }
 
 .container {
@@ -65,7 +66,8 @@
     display: block; /* Show hamburger on smaller screens */
   }
 
-  .app-name {
+  .app-name,
+  .logo {
     display: none; /* Hide app name on smaller screens */
   }
 

@@ -18,7 +18,7 @@ const DashboardComponent = () => {
         withCredentials: true,
       }
     );
-    console.log("logout: ", response);
+
     logout();
     navigate("/login");
   };

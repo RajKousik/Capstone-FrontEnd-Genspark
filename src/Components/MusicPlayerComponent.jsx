@@ -10,31 +10,70 @@ import {
 } from "react-icons/fa";
 import "../css/MusicPlayer.css";
 
-const MusicPlayer = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(50);
+const MusicPlayer = ({
+  currentSong,
+  isPlaying,
+  setIsPlaying,
+  likedSongs,
+  toggleLike,
+  songs, // Added prop for the list of songs
+  setCurrentSong, // Added prop to update the current song
+}) => {
+  const audioRef = useRef(null);
   const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(30);
   const [isLiked, setIsLiked] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  // Mock song details
-  const song = {
-    id: 1,
-    title: "Song One",
-    artist: "Artist One",
-    url: "/testing/audio/Come-on-Girls.mp3", // Example URL
-    duration: 120, // Example duration in seconds
+  useEffect(() => {
+    if (currentSong === null) {
+      setCurrentSong(songs[0]);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (document.activeElement !== document.getElementById("search-input")) {
+        if (event.code === "Space") {
+          event.preventDefault(); // Prevent scrolling when space bar is pressed
+          setIsPlaying((prev) => !prev);
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [setIsPlaying]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [isPlaying, currentSong]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.addEventListener("ended", handleNext);
+      return () => {
+        audioRef.current.removeEventListener("ended", handleNext);
+      };
+    }
+  }, [currentSong, songs]);
+
+  const handleTimeUpdate = () => {
+    setCurrentTime(audioRef.current.currentTime);
   };
 
-  const audioRef = useRef(null);
+  const handleLoadedMetadata = () => {
+    setDuration(audioRef.current.duration);
+  };
 
   const togglePlayPause = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
-    }
     setIsPlaying(!isPlaying);
   };
 
@@ -42,8 +81,6 @@ const MusicPlayer = () => {
     setIsMuted(!isMuted);
     audioRef.current.muted = !isMuted;
   };
-
-  const toggleLike = () => setIsLiked(!isLiked);
 
   const handleVolumeChange = (e) => {
     const newVolume = e.target.value;
@@ -56,62 +93,97 @@ const MusicPlayer = () => {
     }
   };
 
-  const handleTimeUpdate = () => {
-    setCurrentTime(audioRef.current.currentTime);
-  };
-
-  const handleLoadedMetadata = () => {
-    setDuration(audioRef.current.duration);
-  };
-
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume / 100;
     }
   }, [volume]);
 
+  const handlePrevious = () => {
+    const currentIndex = songs.findIndex((song) => song.id === currentSong.id);
+    const previousIndex = (currentIndex - 1 + songs.length) % songs.length;
+    setCurrentSong(songs[previousIndex]);
+  };
+
+  const handleNext = () => {
+    const currentIndex = songs.findIndex((song) => song.id === currentSong.id);
+    const nextIndex = (currentIndex + 1) % songs.length;
+    setCurrentSong(songs[nextIndex]);
+  };
+
   return (
     <div className="music-player">
       <audio
         ref={audioRef}
-        src={song.url}
+        src={currentSong ? currentSong.url : ""}
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
       />
       <div className="left">
         <img
-          src="https://via.placeholder.com/50"
+          // src="https://via.placeholder.com/50"
+          src={currentSong?.imageUrl || "https://via.placeholder.com/50"}
           alt="Song"
           className="song-image"
         />
         <div className="song-info">
-          <span className="song-name">{song.title}</span>
-          <span className="song-artist">{song.artist}</span>
+          <span className="song-name">
+            {currentSong?.title || "Unknown Title"}
+          </span>
+          <span className="song-artist">
+            {currentSong?.artistName || "Unknown Artist"}
+          </span>
         </div>
         <FaHeart
-          className={`heart-icon ${isLiked ? "liked" : ""}`}
-          onClick={toggleLike}
+          className={`control-icon heart-icon ${
+            likedSongs.has(currentSong?.id) ? "liked" : ""
+          }`}
+          onClick={() => toggleLike(currentSong?.id)}
         />
       </div>
       <div className="center">
         <div className="group">
           <span className="song-name" id="md-screen">
-            {song.title}
+            {currentSong?.title || "Unknown Title"}
           </span>
           <div className="controls">
-            <FaStepBackward className="control-icon" />
+            <FaStepBackward
+              className={`control-icon ${
+                songs?.findIndex((song) => song?.id === currentSong?.id) === 0
+                  ? "disabled"
+                  : ""
+              }`}
+              onClick={handlePrevious}
+            />
             {isPlaying ? (
-              <FaPause className="control-icon" onClick={togglePlayPause} />
+              <FaPause
+                className="control-icon pause-button"
+                onClick={togglePlayPause}
+              />
             ) : (
-              <FaPlay className="control-icon" onClick={togglePlayPause} />
+              <FaPlay
+                className="control-icon play-button"
+                onClick={togglePlayPause}
+              />
             )}
-            <FaStepForward className="control-icon" />
+            <FaStepForward
+              className={`control-icon ${
+                songs.findIndex((song) => song.id === currentSong.id) ===
+                songs.length - 1
+                  ? "disabled"
+                  : ""
+              }`}
+              onClick={handleNext}
+            />
           </div>
+
           <div className="group-right">
             <FaHeart
               id="md-screen"
-              className={`heart-icon ${isLiked ? "liked" : ""}`}
-              onClick={toggleLike}
+              className={`control-icon heart-icon ${
+                likedSongs.has(currentSong?.id) ? "liked" : ""
+              }`}
+              onClick={() => toggleLike(currentSong?.id)}
             />
             <div className="volume-control" id="volume-icon">
               {isMuted ? (

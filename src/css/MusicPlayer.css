@@ -59,10 +59,22 @@
 }
 
 .control-icon {
-  font-size: 25px;
+  font-size: 30px;
   cursor: pointer;
   border-radius: 50%;
   padding: 5px;
+}
+
+.control-icon.disabled {
+  color: #ccc;
+  pointer-events: none;
+}
+
+.pause-button,
+.play-button {
+  background-color: white;
+  color: #ffa500; /* Replace with your secondary color */
+  border-radius: 50%;
 }
 
 .progress-container {
@@ -76,6 +88,32 @@
 .progress {
   width: 80%;
   margin: 0 10px;
+  accent-color: #ffa500;
+}
+
+.music-player .progress::-webkit-slider-thumb {
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background: #ffa500 !important; /* Slider thumb color */
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.music-player .progress::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background: #ffa500 !important; /* Slider thumb color */
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.music-player .progress::-ms-thumb {
+  width: 15px;
+  height: 15px;
+  background: #ffa500 !important; /* Slider thumb color */
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .time {
@@ -88,7 +126,7 @@
 }
 
 .heart-icon {
-  font-size: 25px;
+  font-size: 30px;
   cursor: pointer;
   margin-left: 20px;
 }

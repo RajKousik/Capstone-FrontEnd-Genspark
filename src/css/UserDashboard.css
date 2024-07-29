@@ -4,7 +4,7 @@
 }
 
 .content {
-  padding-top: 60px; /* Adjust this value to match the height of your navbar */
+  padding-top: 56px; /* Adjust this value to match the height of your navbar */
   flex: 1; /* Ensure the content takes up the remaining space */
 }
 

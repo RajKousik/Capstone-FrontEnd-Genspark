@@ -59,7 +59,7 @@ const LoginComponent = () => {
         setTimeout(() => {
           const { role } = response.data;
           login(response.data, response.data.token);
-          console.log("role :>> ", role);
+
           if (role.toLowerCase() === "admin") {
             navigate("/admin-dashboard");
           } else if (
