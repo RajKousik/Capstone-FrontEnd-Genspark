@@ -157,6 +157,7 @@ const RegisterComponent = () => {
                           placeholder="Enter username"
                           value={username}
                           onChange={(e) => setUsername(e.target.value)}
+                          disabled={loading}
                         />
                       </Form.Group>
                     </Col>
@@ -170,6 +171,7 @@ const RegisterComponent = () => {
                           placeholder="Enter email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
+                          disabled={loading}
                         />
                       </Form.Group>
                     </Col>
@@ -184,6 +186,7 @@ const RegisterComponent = () => {
                           type="date"
                           value={dob}
                           onChange={(e) => setDob(e.target.value)}
+                          disabled={loading}
                         />
                       </Form.Group>
                     </Col>
@@ -198,6 +201,7 @@ const RegisterComponent = () => {
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           maxLength="10"
+                          disabled={loading}
                         />
                       </Form.Group>
                     </Col>
@@ -214,6 +218,7 @@ const RegisterComponent = () => {
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            disabled={loading}
                           />
                           <Button
                             variant="outline-secondary"
@@ -238,6 +243,7 @@ const RegisterComponent = () => {
                             placeholder="Confirm Password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
+                            disabled={loading}
                           />
                           <Button
                             variant="outline-secondary"

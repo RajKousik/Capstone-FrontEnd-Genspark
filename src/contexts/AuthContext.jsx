@@ -4,7 +4,7 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 const AuthContext = createContext();
 
 const getInitialState = () => {
-  const storedData = sessionStorage.getItem("authData");
+  const storedData = localStorage.getItem("authData");
   return storedData
     ? JSON.parse(storedData)
     : { storedUser: null, storedToken: null, storedIsAuthenticated: false };
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(storedIsAuthenticated);
 
   useEffect(() => {
-    sessionStorage.setItem(
+    localStorage.setItem(
       "authData",
       JSON.stringify({
         storedUser: user,
@@ -37,7 +37,6 @@ export const AuthProvider = ({ children }) => {
 
   // Function to clear user data and token
   const logout = () => {
-    console.log("getting Called :>> ");
     setUser(null);
     setToken(null);
     setIsAuthenticated(false);

@@ -57,15 +57,23 @@ const LoginComponent = () => {
         });
 
         setTimeout(() => {
-          console.log("Successfully logged in");
+          const { role } = response.data;
           login(response.data, response.data.token);
-          navigate("/dashboard");
+          console.log("role :>> ", role);
+          if (role.toLowerCase() === "admin") {
+            navigate("/admin-dashboard");
+          } else if (
+            role.toLowerCase() === "normaluser" ||
+            role.toLowerCase() === "premiumuser"
+          ) {
+            navigate("/user-dashboard");
+          } else if (role === "artist") {
+            navigate("/artist-dashboard");
+          }
           setLoading(false);
-
-          // Reset form after successful submission
           setEmail("");
           setPassword("");
-        }, 2500); // Navigate after 1.5 seconds
+        }, 1500);
       }
     } catch (error) {
       console.error(error.response.data);

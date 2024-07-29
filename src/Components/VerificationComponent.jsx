@@ -142,6 +142,7 @@ const VerificationComponent = () => {
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value)}
                   maxLength="6"
+                  disabled={loading}
                 />
               </Form.Group>
               <Button
@@ -156,7 +157,7 @@ const VerificationComponent = () => {
                 <Button
                   variant="link"
                   onClick={handleResendCode}
-                  disabled={resendLoading}
+                  disabled={resendLoading || loading}
                 >
                   {resendLoading ? "Sending..." : "Resend Verification Code"}
                 </Button>
