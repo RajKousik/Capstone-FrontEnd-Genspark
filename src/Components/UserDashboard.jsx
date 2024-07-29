@@ -1,31 +1,40 @@
-import React, { useContext } from "react";
-import { useAuth } from "../contexts/AuthContext";
-import { Form, Button, Card, Row, Col, Spinner } from "react-bootstrap";
-import axiosInstance from "../api/axiosConfig";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import MusicPlayer from "./MusicPlayerComponent";
+import LeftNavbar from "./LeftNavbar";
+import NavbarComponent from "./NavbarComponent";
+// import Profile from "./Profile"; // Replace with actual component
+// import Songs from "./Songs"; // Replace with actual component
+// import MyPlaylist from "./MyPlaylist"; // Replace with actual component
+// import PublicPlaylist from "./PublicPlaylist"; // Replace with actual component
+// import Artists from "./Artists"; // Replace with actual component
+// import ChangePassword from "./ChangePassword"; // Replace with actual component
+// import UpgradePremium from "./UpgradePremium"; // Replace with actual component
+import "../css/UserDashboard.css";
+import LoginComponent from "./LoginComponent";
+import SongsComponent from "./SongsComponent";
 
 const UserDashboard = () => {
-  const { user, token, logout } = useAuth();
-
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    const response = await axiosInstance.post(
-      "/auth/logout",
-      {},
-      {
-        withCredentials: true,
-      }
-    );
-    console.log("logout: ", response);
-    logout();
-    navigate("/login");
-  };
   return (
-    <>
-      <div>User Dashboard</div>
-      <Button onClick={handleLogout}>Logout</Button>
-    </>
+    <div className="user-dashboard">
+      <NavbarComponent />
+      <div className="content">
+        <Routes>
+          {/* <Route path="/profile" element={<Profile />} /> */}
+          {/* <Route path="/songs" element={<Songs />} />
+            <Route path="/my-playlist" element={<MyPlaylist />} />
+            <Route path="/public-playlist" element={<PublicPlaylist />} />
+            <Route path="/artists" element={<Artists />} />
+            <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/upgrade-premium" element={<UpgradePremium />} /> */}
+          {/* Default route or 404 page */}
+          {/* <Route path="/profile" element={<NavbarComponent />} /> */}
+          <Route path="/songs" element={<SongsComponent />} />
+          {/* <Route path="/" element={<MusicPlayer />} /> */}
+        </Routes>
+      </div>
+      <MusicPlayer />
+    </div>
   );
 };
 

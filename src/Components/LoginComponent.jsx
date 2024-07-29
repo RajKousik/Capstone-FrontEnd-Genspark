@@ -76,7 +76,7 @@ const LoginComponent = () => {
         }, 1500);
       }
     } catch (error) {
-      console.error(error.response.data);
+      console.error(error.response);
       // setError(error.response.data.message);
       toast.error(error.response.data.message, {
         position: "top-right",

@@ -1,0 +1,105 @@
+.custom-navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure the navbar is on top of other content */
+  background-color: #282828;
+  color: #fff;
+}
+
+.container {
+  margin: 0;
+  min-width: 100%;
+}
+
+.custom-navbar .navbar-brand {
+  color: #fff;
+}
+
+.custom-navbar .navbar-nav .nav-link {
+  color: #fff;
+  transition: color 0.3s; /* Smooth color transition */
+}
+
+.custom-navbar .nav-link:hover {
+  color: #ffa500; /* Color on hover */
+}
+
+.custom-navbar .nav-link.active {
+  color: #ffa500; /* Active link color */
+  font-weight: bold; /* Bold text for active link */
+}
+
+.custom-navbar .navbar-toggler-icon {
+  background-image: none; /* Remove default hamburger icon */
+}
+
+.hamburger-icon {
+  display: none; /* Hide hamburger on normal screens */
+}
+
+.nav-links {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-icon {
+  font-size: 24px;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.user-name {
+  color: #fff;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+  .hamburger-icon {
+    display: block; /* Show hamburger on smaller screens */
+  }
+
+  .app-name {
+    display: none; /* Hide app name on smaller screens */
+  }
+
+  .nav-links {
+    display: none; /* Hide nav links on smaller screens */
+  }
+
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #282828;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-links {
+    margin-left: 16px;
+  }
+
+  .navbar-nav {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .user-info {
+    justify-content: end;
+    width: 100%;
+  }
+
+  .user-name {
+    display: none; /* Hide user name on smaller screens */
+  }
+}
