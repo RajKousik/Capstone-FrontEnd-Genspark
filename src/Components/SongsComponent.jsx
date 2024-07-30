@@ -8,25 +8,34 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import "../css/SongsComponent.css";
+import { useMusic } from "../contexts/MusicContext";
 
 const SongsComponent = ({
-  currentSong,
-  setCurrentSong,
-  setIsPlaying,
-  isPlaying,
-  likedSongs,
+  // currentSong,
+  // setCurrentSong,
+  // setIsPlaying,
+  // isPlaying,
+  // likedSongs,
   toggleLike,
-  songs,
+  // songs,
 }) => {
+  const {
+    currentSong,
+    isPlaying,
+    setIsPlaying,
+    likedSongs,
+    setCurrentSong,
+    songs, // Access songs from context
+  } = useMusic();
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [hoveredSongId, setHoveredSongId] = useState(null);
 
-  useEffect(() => {
-    if (!currentSong && songs.length > 0) {
-      setCurrentSong(songs[0]); // Set the first song as default
-    }
-  }, [currentSong, setCurrentSong, songs]);
+  // useEffect(() => {
+  //   if (!currentSong && songs.length > 0) {
+  //     setCurrentSong(songs[0]); // Set the first song as default
+  //   }
+  // }, [currentSong, setCurrentSong, songs]);
 
   const handlePlayButtonClick = (song) => {
     if (currentSong?.id === song.id) {

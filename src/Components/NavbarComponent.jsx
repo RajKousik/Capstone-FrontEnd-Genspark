@@ -1,24 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { FaBars, FaUserCircle } from "react-icons/fa";
-import { useLocation, useNavigate } from "react-router-dom";
+import { FaBars } from "react-icons/fa";
 import LogoWithNoBackground from "../assets/logo/logo_no_background.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/NavbarComponent.css"; // Custom styles for additional styling
 import { useAuth } from "../contexts/AuthContext";
 
-const NavbarComponent = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [activeLink, setActiveLink] = useState(
-    location.pathname.split("/")[2] || "profile"
-  );
-
+const NavbarComponent = ({ activeLink, setActiveComponent }) => {
   const { user } = useAuth();
-
-  const handleNavigation = (path) => {
-    setActiveLink(path.split("/")[1]);
-  };
 
   return (
     <Navbar expand="lg" className="custom-navbar">
@@ -39,46 +28,56 @@ const NavbarComponent = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto nav-links">
             <Nav.Link
-              href="/user-dashboard/profile"
-              onClick={() => handleNavigation("/profile")}
-              className={activeLink === "profile" ? "active" : ""}
+              onClick={() => setActiveComponent("profile")}
+              style={{
+                color: activeLink === "profile" ? "#ffa500" : "inherit",
+              }}
             >
               Profile
             </Nav.Link>
             <Nav.Link
-              href="/user-dashboard/songs"
-              onClick={() => handleNavigation("/songs")}
-              className={activeLink === "songs" ? "active" : ""}
+              onClick={() => setActiveComponent("songs")}
+              style={{ color: activeLink === "songs" ? "#ffa500" : "inherit" }}
             >
               Songs
             </Nav.Link>
             <Nav.Link
-              onClick={() => handleNavigation("/my-playlist")}
-              className={activeLink === "my-playlist" ? "active" : ""}
+              onClick={() => setActiveComponent("playlists")}
+              style={{
+                color: activeLink === "playlists" ? "#ffa500" : "inherit",
+              }}
             >
               My Playlist
             </Nav.Link>
             <Nav.Link
-              onClick={() => handleNavigation("/public-playlist")}
-              className={activeLink === "public-playlist" ? "active" : ""}
+              onClick={() => setActiveComponent("public-playlist")}
+              style={{
+                color: activeLink === "public-playlist" ? "#ffa500" : "inherit",
+              }}
             >
               Public Playlist
             </Nav.Link>
             <Nav.Link
-              onClick={() => handleNavigation("/artists")}
-              className={activeLink === "artists" ? "active" : ""}
+              onClick={() => setActiveComponent("artists")}
+              style={{
+                color: activeLink === "artists" ? "#ffa500" : "inherit",
+              }}
             >
               Artists
             </Nav.Link>
             <Nav.Link
-              onClick={() => handleNavigation("/change-password")}
-              className={activeLink === "change-password" ? "active" : ""}
+              onClick={() => setActiveComponent("change-password")}
+              style={{
+                color: activeLink === "change-password" ? "#ffa500" : "inherit",
+              }}
             >
               Change Password
             </Nav.Link>
             <Nav.Link
-              onClick={() => handleNavigation("/upgrade-premium")}
-              className={activeLink === "upgrade-premium" ? "active" : ""}
+              onClick={() => setActiveComponent("upgrade-premium")}
+              style={{
+                color: activeLink === "upgrade-premium" ? "#ffa500" : "inherit",
+              }}
             >
               Upgrade Premium
             </Nav.Link>
@@ -86,7 +85,6 @@ const NavbarComponent = () => {
         </Navbar.Collapse>
         <Nav className="ms-auto">
           <Nav.Item className="user-info">
-            {/* <FaUserCircle className="user-icon" /> */}
             <div className="user-avatar">
               <img
                 src="https://res.cloudinary.com/deqk5oxse/image/upload/v1721715723/samples/smile.jpg"

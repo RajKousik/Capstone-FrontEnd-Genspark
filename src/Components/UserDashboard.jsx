@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+// src/components/UserDashboard.js
+import React, { useEffect, useState } from "react";
 import MusicPlayer from "./MusicPlayerComponent";
 import NavbarComponent from "./NavbarComponent";
 import SongsComponent from "./SongsComponent";
+import PlaylistComponent from "./PlaylistComponent";
 import "../css/UserDashboard.css";
 import { getAllSongs } from "../api/data/songs/song";
 import { getArtistById } from "../api/data/artists/artist";
@@ -14,13 +15,15 @@ import {
   deleteFavoriteSong,
 } from "../api/data/favorites/favorite";
 import { useAuth } from "../contexts/AuthContext";
+import { useMusic } from "../contexts/MusicContext";
 
 const UserDashboard = () => {
-  const { user } = useAuth(); // Get user info
+  const { user } = useAuth();
+  const { setCurrentSong, setIsPlaying, likedSongs, setLikedSongs, setSongs } =
+    useMusic();
+
   const [songsData, setSongsData] = useState([]);
-  const [currentSong, setCurrentSong] = useState(songsData[0]);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [likedSongs, setLikedSongs] = useState(new Set()); // Manage liked songs
+  const [activeLink, setActiveLink] = useState("songs"); // Default active link
 
   useEffect(() => {
     const fetchSongsData = async () => {
@@ -39,6 +42,7 @@ const UserDashboard = () => {
         })
       );
       setSongsData(enrichedSongs);
+      setSongs(enrichedSongs);
       if (enrichedSongs.length > 0) {
         setCurrentSong(enrichedSongs[0]);
       }
@@ -47,18 +51,16 @@ const UserDashboard = () => {
     const fetchFavoriteSongs = async () => {
       if (user) {
         const favoriteSongs = await getFavoritesByUserId(user.userId);
-
         const favoriteSongIds = new Set(
           favoriteSongs.map((song) => song.songId)
         );
-
         setLikedSongs(favoriteSongIds);
       }
     };
 
     fetchSongsData();
     fetchFavoriteSongs();
-  }, [user]);
+  }, [user, setCurrentSong, setLikedSongs, setSongs]);
 
   const toggleLike = async (songId) => {
     if (likedSongs.has(songId)) {
@@ -76,35 +78,18 @@ const UserDashboard = () => {
 
   return (
     <div className="user-dashboard">
-      <NavbarComponent />
-      <div className="content">
-        <Routes>
-          <Route
-            path="/songs"
-            element={
-              <SongsComponent
-                currentSong={currentSong}
-                setCurrentSong={setCurrentSong}
-                setIsPlaying={setIsPlaying}
-                isPlaying={isPlaying}
-                likedSongs={likedSongs}
-                toggleLike={toggleLike}
-                songs={songsData}
-              />
-            }
-          />
-          {/* Add other routes as needed */}
-        </Routes>
-      </div>
-      <MusicPlayer
-        currentSong={currentSong}
-        isPlaying={isPlaying}
-        setIsPlaying={setIsPlaying}
-        likedSongs={likedSongs}
-        toggleLike={toggleLike}
-        setCurrentSong={setCurrentSong}
-        songs={songsData}
+      <NavbarComponent
+        activeLink={activeLink}
+        setActiveComponent={setActiveLink}
       />
+      <div className="content">
+        {activeLink === "songs" && (
+          <SongsComponent songs={songsData} toggleLike={toggleLike} />
+        )}
+        {activeLink === "playlists" && <PlaylistComponent />}
+        {/* Add more components based on activeLink */}
+      </div>
+      <MusicPlayer />
     </div>
   );
 };

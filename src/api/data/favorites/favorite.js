@@ -48,4 +48,61 @@ const deleteFavoriteSong = async (userId, songId) => {
   }
 };
 
-export { getFavoritesByUserId, addFavoriteSong, deleteFavoriteSong };
+//playlists
+
+// Function to get favorite playlists by user ID
+const getFavoritePlaylistsByUserId = async (userId) => {
+  const response = await axiosInstance.get(
+    `/favorites/playlists?userId=${userId}`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
+// Function to add a favorite playlist for a user
+const addFavoritePlaylist = async (userId, playlistId) => {
+  const body = {
+    userId: userId,
+    playlistId: playlistId,
+  };
+
+  try {
+    const response = await axiosInstance.post("/favorites/playlist", body, {
+      withCredentials: true,
+    });
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error("Error adding favorite playlist:", error);
+    throw error; // Rethrow the error for further handling
+  }
+};
+
+// Function to delete a favorite playlist for a user
+const deleteFavoritePlaylist = async (userId, playlistId) => {
+  const body = {
+    userId: userId,
+    playlistId: playlistId,
+  };
+
+  try {
+    const response = await axiosInstance.delete("/favorites/playlist", {
+      data: body,
+      withCredentials: true,
+    });
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error("Error deleting favorite playlist:", error);
+    throw error; // Rethrow the error for further handling
+  }
+};
+
+export {
+  getFavoritesByUserId,
+  addFavoriteSong,
+  deleteFavoriteSong,
+  getFavoritePlaylistsByUserId,
+  addFavoritePlaylist,
+  deleteFavoritePlaylist,
+};

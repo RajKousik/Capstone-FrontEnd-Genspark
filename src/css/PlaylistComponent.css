@@ -1,0 +1,43 @@
+.playlist-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-playlist-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.dropdown-menu-custom {
+  background-color: #ffa500; /* Set dropdown background color */
+}
+
+.dropdown-menu-custom .delete-option {
+  color: red; /* Set delete option color */
+}
+
+.playlist-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.playlist-image {
+  height: 200px;
+  object-fit: cover;
+}
+
+.playlist-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.playlist-options-dropdown {
+  cursor: pointer;
+}
+
+.favorite-icon {
+  font-size: 1.2rem;
+}

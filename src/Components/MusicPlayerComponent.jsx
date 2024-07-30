@@ -9,36 +9,62 @@ import {
   FaHeart,
 } from "react-icons/fa";
 import "../css/MusicPlayer.css";
+import { useMusic } from "../contexts/MusicContext";
 
-const MusicPlayer = ({
-  currentSong,
-  isPlaying,
-  setIsPlaying,
-  likedSongs,
-  toggleLike,
-  songs, // Added prop for the list of songs
-  setCurrentSong, // Added prop to update the current song
-}) => {
+const MusicPlayer = ({ toggleLike }) => {
+  console.log("MusicPlayer");
   const audioRef = useRef(null);
+
+  const {
+    currentSong,
+    isPlaying,
+    setIsPlaying,
+    likedSongs,
+    setCurrentSong,
+    songs, // Access songs from context
+  } = useMusic();
+
   const [isMuted, setIsMuted] = useState(false);
-  const [volume, setVolume] = useState(30);
+  const [volume, setVolume] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  useEffect(() => {
-    if (currentSong === null) {
-      setCurrentSong(songs[0]);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (currentSong === null) {
+  //     setCurrentSong(songs[0]);
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   const handleKeyDown = (event) => {
+  //     if (document.activeElement !== document.getElementById("search-input")) {
+  //       if (event.code === "Space") {
+  //         event.preventDefault(); // Prevent scrolling when space bar is pressed
+  //         setIsPlaying((prev) => !prev);
+  //       }
+  //     }
+  //   };
+
+  //   document.addEventListener("keydown", handleKeyDown);
+  //   return () => document.removeEventListener("keydown", handleKeyDown);
+  // }, [setIsPlaying]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (document.activeElement !== document.getElementById("search-input")) {
-        if (event.code === "Space") {
-          event.preventDefault(); // Prevent scrolling when space bar is pressed
-          setIsPlaying((prev) => !prev);
-        }
+      const activeElement = document.activeElement;
+
+      if (
+        activeElement &&
+        (activeElement.tagName === "INPUT" ||
+          activeElement.tagName === "TEXTAREA")
+      ) {
+        return; // Do nothing if an input or textarea is focused
+      }
+
+      if (event.code === "Space") {
+        event.preventDefault(); // Prevent default behavior like scrolling
+        setIsPlaying((prev) => !prev);
       }
     };
 
