@@ -14,4 +14,11 @@ const getSongById = async (songId) => {
   return response.data;
 };
 
-export { getAllSongs, getSongById };
+const getSongByGenre = async (genre) => {
+  const response = await axiosInstance.get(`/songs/genre?genre=${genre}`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export { getAllSongs, getSongById, getSongByGenre };

@@ -33,19 +33,22 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SongsComponent from "./SongsComponent";
 import { useMusic } from "../contexts/MusicContext";
-import { getSongById } from "../api/data/songs/song";
+import { getSongByGenre, getSongById } from "../api/data/songs/song";
 import { getArtistById } from "../api/data/artists/artist";
 import { getAlbumById } from "../api/data/albums/album";
 import { formatDateTime } from "../api/utility/commonUtils";
 import PlaylistSongsComponent from "./PlaylistSongsComponent";
 import { getSongsByPlaylistId } from "../api/data/playlistsongs/playlistsongs";
+import GenreTypes from "../api/utility/genreTypes";
 
 const PlaylistComponent = () => {
   const { user } = useAuth();
   const [myPlaylists, setMyPlaylists] = useState([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+  const [isUserPlaylist, setIsUserPlaylist] = useState(false);
   const [playlistSongs, setPlaylistSongs] = useState(null);
   const [publicPlaylists, setPublicPlaylists] = useState([]);
+  const [genrePlaylists, setGenrePlaylists] = useState([]);
   const [favorites, setFavorites] = useState(new Set());
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -92,9 +95,16 @@ const PlaylistComponent = () => {
           })
         );
 
+        const genrePlaylists = Object.values(GenreTypes).map((genre) => ({
+          name: genre.name,
+          imageUrl: genre.imageUrl,
+          id: genre.id,
+        }));
+
         setMyPlaylists(updatedUserPlaylists);
         setPublicPlaylists(updatedPublicPlaylists);
         setFavorites(new Set(favoritePlaylists.map((pl) => pl.playlistId)));
+        setGenrePlaylists(genrePlaylists);
       } catch (error) {
         console.error("Error fetching playlists:", error);
         toast.error("Error fetching playlists", {
@@ -108,21 +118,17 @@ const PlaylistComponent = () => {
     fetchPlaylists();
   }, [user.userId]);
 
-  const handleViewPlaylistClick = async (playlist) => {
+  const handleViewPlaylistClick = async (playlist, userPlaylist) => {
     setSelectedPlaylist(playlist);
     // here get playlist songs as of now some dummy data
-    const result = await getSongsByPlaylistId(playlist.playlistId);
-    // const songOne = await getSongById(1);
-
-    // const artist = await getArtistById(songOne.artistId);
-    // const album = await getAlbumById(songOne.albumId);
-    // const enrichedSongOne = {
-    //   ...songOne,
-    //   artistName: artist.name,
-    //   albumName: album ? album.title : "Single",
-    //   releaseDate: formatDateTime(songOne.releaseDate),
-    //   id: songOne.songId,
-    // };
+    var result;
+    if (userPlaylist) {
+      result = await getSongsByPlaylistId(playlist.playlistId);
+      setIsUserPlaylist(true);
+    } else {
+      result = await getSongByGenre(playlist.name);
+      setIsUserPlaylist(false);
+    }
 
     const enrichedSongs = await Promise.all(
       result.map(async (song) => {
@@ -287,6 +293,7 @@ const PlaylistComponent = () => {
           setPlaylistSongs={setPlaylistSongs}
           playlist={selectedPlaylist}
           handleBackClick={handleBackClick}
+          isUserPlaylist={isUserPlaylist}
         />
       ) : (
         /* </Col>
@@ -379,7 +386,9 @@ const PlaylistComponent = () => {
                             backgroundColor: "#ffa500",
                             borderColor: "#ffa500",
                           }}
-                          onClick={() => handleViewPlaylistClick(playlist)}
+                          onClick={() =>
+                            handleViewPlaylistClick(playlist, true)
+                          }
                         >
                           View Playlist
                         </Button>
@@ -453,6 +462,9 @@ const PlaylistComponent = () => {
                               backgroundColor: "#ffa500",
                               borderColor: "#ffa500",
                             }}
+                            onClick={() =>
+                              handleViewPlaylistClick(playlist, false)
+                            }
                           >
                             View Playlist
                           </Button>
@@ -471,6 +483,55 @@ const PlaylistComponent = () => {
                     </Card>
                   </Col>
                 ))
+            )}
+          </Row>
+
+          <Row className="mt-4">
+            <Col>
+              <h2 className="playlist-header">Pick Your Genre</h2>
+            </Col>
+          </Row>
+          <Row
+            className="mt-3"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "flex-start",
+            }}
+          >
+            {genrePlaylists.length === 0 ? (
+              <Col className="text-center">No Genres available as of now.</Col>
+            ) : (
+              genrePlaylists.map((playlist) => (
+                <Col key={playlist.id} xs={12} sm={6} md={4} className="mb-4">
+                  <Card className="playlist-card">
+                    <Card.Img
+                      variant="top"
+                      src={playlist.imageUrl}
+                      className="playlist-image"
+                    />
+                    <Card.Body className="d-flex flex-column justify-content-between">
+                      <Card.Title className="playlist-title">
+                        {playlist.name}
+                      </Card.Title>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <Button
+                          variant="primary"
+                          style={{
+                            backgroundColor: "#ffa500",
+                            borderColor: "#ffa500",
+                          }}
+                          onClick={() =>
+                            handleViewPlaylistClick(playlist, false)
+                          }
+                        >
+                          View Playlist
+                        </Button>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))
             )}
           </Row>
 

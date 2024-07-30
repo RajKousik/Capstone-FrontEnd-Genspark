@@ -36,6 +36,10 @@
   object-fit: cover;
 }
 
+.playlist-songs .heart-icon {
+  margin-left: 0;
+}
+
 .playlist-songs .play-pause-overlay {
   position: absolute;
   top: 0;
@@ -62,8 +66,10 @@
 }
 
 .playlist-songs .like-remove {
+  display: flex;
   width: 100%;
   gap: 5px;
+  justify-content: center;
 }
 
 .add-clear {

@@ -39,6 +39,7 @@ const PlaylistSongsComponent = ({
   playlist,
   handleBackClick,
   setPlaylistSongs,
+  isUserPlaylist,
 }) => {
   const {
     currentSong,
@@ -216,24 +217,27 @@ const PlaylistSongsComponent = ({
               </Button>
               <h2 className="playlist-header m-0">{playlist.name}</h2>
             </div>
-            <div className="add-clear">
-              <Button
-                variant="text"
-                onClick={handleAddSong}
-                style={{ color: "#ffa500", padding: "0px" }}
-                className="add-btn"
-              >
-                <FaPlus /> <span id="md-screen">Add Songs</span>
-              </Button>
-              <Button
-                variant="text"
-                onClick={() => setShowClearModal(true)}
-                className="clear-btn"
-                style={{ color: "red", padding: "0px" }}
-              >
-                <IoIosRemoveCircle /> <span id="md-screen">Clear Playlist</span>
-              </Button>
-            </div>
+            {isUserPlaylist && (
+              <div className="add-clear">
+                <Button
+                  variant="text"
+                  onClick={handleAddSong}
+                  style={{ color: "#ffa500", padding: "0px" }}
+                  className="add-btn"
+                >
+                  <FaPlus /> <span id="md-screen">Add Songs</span>
+                </Button>
+                <Button
+                  variant="text"
+                  onClick={() => setShowClearModal(true)}
+                  className="clear-btn"
+                  style={{ color: "red", padding: "0px" }}
+                >
+                  <IoIosRemoveCircle />{" "}
+                  <span id="md-screen">Clear Playlist</span>
+                </Button>
+              </div>
+            )}
           </div>
           <div className="playlist-songs">
             {playlistSongs?.length > 0 ? (
@@ -292,15 +296,17 @@ const PlaylistSongsComponent = ({
                               />
                             )}
                           </Button>
-                          <Button
-                            variant="link"
-                            className="remove-btn"
-                            onClick={() => handleRemoveSong(song.songId)}
-                          >
-                            <FaMinus
-                              style={{ color: "red", fontSize: "30px" }}
-                            />
-                          </Button>
+                          {isUserPlaylist && (
+                            <Button
+                              variant="link"
+                              className="remove-btn"
+                              onClick={() => handleRemoveSong(song.songId)}
+                            >
+                              <FaMinus
+                                style={{ color: "red", fontSize: "30px" }}
+                              />
+                            </Button>
+                          )}
                         </div>
                         <div className="release-date">{song.releaseDate}</div>
                       </div>

@@ -17,6 +17,7 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { useMusic } from "../contexts/MusicContext";
 import SongsPage from "./SongsPage";
+import CheckoutComponent from "./CheckoutComponent";
 
 const UserDashboard = () => {
   const { user } = useAuth();
@@ -92,6 +93,7 @@ const UserDashboard = () => {
       <div className="content">
         {activeLink === "songs" && <SongsPage activeLink={activeLink} />}
         {activeLink === "playlists" && <PlaylistComponent />}
+        {activeLink === "explore-premium" && <CheckoutComponent />}
         {/* Add more components based on activeLink */}
       </div>
       <MusicPlayer />

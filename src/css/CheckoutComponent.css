@@ -1,0 +1,24 @@
+.checkout-container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.checkout-container .card {
+  transition: transform 0.2s;
+  max-width: 300px; /* Set a maximum width for the cards */
+  margin: auto; /* Center the cards horizontally */
+}
+
+.checkout-container .card:hover {
+  transform: scale(1.05);
+}
+
+.checkout-container .card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.checkout-container .checkout-btn {
+  display: block;
+  margin: auto;
+}

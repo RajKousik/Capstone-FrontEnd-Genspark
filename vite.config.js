@@ -5,6 +5,7 @@ import mkcert from "vite-plugin-mkcert";
 const cherryPickedKeys = [
   "REACT_APP_CLOUDINARY_URL",
   "REACT_APP_CLOUDINARY_UPLOAD_PRESET",
+  "REACT_APP_STRIPE_PUBLISHABLE_KEY",
 ];
 
 // https://vitejs.dev/config/

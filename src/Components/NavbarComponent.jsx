@@ -66,12 +66,12 @@ const NavbarComponent = ({ activeLink, setActiveComponent }) => {
               Change Password
             </Nav.Link>
             <Nav.Link
-              onClick={() => setActiveComponent("upgrade-premium")}
+              onClick={() => setActiveComponent("explore-premium")}
               style={{
-                color: activeLink === "upgrade-premium" ? "#ffa500" : "inherit",
+                color: activeLink === "explore-premium" ? "#ffa500" : "inherit",
               }}
             >
-              Upgrade Premium
+              Explore Premium
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
