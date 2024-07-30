@@ -11,8 +11,7 @@ import {
 import "../css/MusicPlayer.css";
 import { useMusic } from "../contexts/MusicContext";
 
-const MusicPlayer = ({ toggleLike }) => {
-  console.log("MusicPlayer");
+const MusicPlayer = () => {
   const audioRef = useRef(null);
 
   const {
@@ -22,6 +21,7 @@ const MusicPlayer = ({ toggleLike }) => {
     likedSongs,
     setCurrentSong,
     songs, // Access songs from context
+    toggleLike,
   } = useMusic();
 
   const [isMuted, setIsMuted] = useState(false);

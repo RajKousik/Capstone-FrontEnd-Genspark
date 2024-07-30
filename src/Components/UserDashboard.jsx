@@ -16,11 +16,18 @@ import {
 } from "../api/data/favorites/favorite";
 import { useAuth } from "../contexts/AuthContext";
 import { useMusic } from "../contexts/MusicContext";
+import SongsPage from "./SongsPage";
 
 const UserDashboard = () => {
   const { user } = useAuth();
-  const { setCurrentSong, setIsPlaying, likedSongs, setLikedSongs, setSongs } =
-    useMusic();
+  const {
+    setCurrentSong,
+    setIsPlaying,
+    likedSongs,
+    setLikedSongs,
+    setSongs,
+    toggleLike,
+  } = useMusic();
 
   const [songsData, setSongsData] = useState([]);
   const [activeLink, setActiveLink] = useState("songs"); // Default active link
@@ -62,19 +69,19 @@ const UserDashboard = () => {
     fetchFavoriteSongs();
   }, [user, setCurrentSong, setLikedSongs, setSongs]);
 
-  const toggleLike = async (songId) => {
-    if (likedSongs.has(songId)) {
-      await deleteFavoriteSong(user.userId, songId);
-      setLikedSongs((prevLikedSongs) => {
-        const newLikedSongs = new Set(prevLikedSongs);
-        newLikedSongs.delete(songId);
-        return newLikedSongs;
-      });
-    } else {
-      await addFavoriteSong(user.userId, songId);
-      setLikedSongs((prevLikedSongs) => new Set(prevLikedSongs).add(songId));
-    }
-  };
+  // const toggleLike = async (songId) => {
+  //   if (likedSongs.has(songId)) {
+  //     await deleteFavoriteSong(user.userId, songId);
+  //     setLikedSongs((prevLikedSongs) => {
+  //       const newLikedSongs = new Set(prevLikedSongs);
+  //       newLikedSongs.delete(songId);
+  //       return newLikedSongs;
+  //     });
+  //   } else {
+  //     await addFavoriteSong(user.userId, songId);
+  //     setLikedSongs((prevLikedSongs) => new Set(prevLikedSongs).add(songId));
+  //   }
+  // };
 
   return (
     <div className="user-dashboard">
@@ -83,9 +90,7 @@ const UserDashboard = () => {
         setActiveComponent={setActiveLink}
       />
       <div className="content">
-        {activeLink === "songs" && (
-          <SongsComponent songs={songsData} toggleLike={toggleLike} />
-        )}
+        {activeLink === "songs" && <SongsPage activeLink={activeLink} />}
         {activeLink === "playlists" && <PlaylistComponent />}
         {/* Add more components based on activeLink */}
       </div>

@@ -47,15 +47,7 @@ const NavbarComponent = ({ activeLink, setActiveComponent }) => {
                 color: activeLink === "playlists" ? "#ffa500" : "inherit",
               }}
             >
-              My Playlist
-            </Nav.Link>
-            <Nav.Link
-              onClick={() => setActiveComponent("public-playlist")}
-              style={{
-                color: activeLink === "public-playlist" ? "#ffa500" : "inherit",
-              }}
-            >
-              Public Playlist
+              Playlists
             </Nav.Link>
             <Nav.Link
               onClick={() => setActiveComponent("artists")}

@@ -10,15 +10,7 @@ import {
 import "../css/SongsComponent.css";
 import { useMusic } from "../contexts/MusicContext";
 
-const SongsComponent = ({
-  // currentSong,
-  // setCurrentSong,
-  // setIsPlaying,
-  // isPlaying,
-  // likedSongs,
-  toggleLike,
-  // songs,
-}) => {
+const SongsComponent = () => {
   const {
     currentSong,
     isPlaying,
@@ -26,6 +18,7 @@ const SongsComponent = ({
     likedSongs,
     setCurrentSong,
     songs, // Access songs from context
+    toggleLike,
   } = useMusic();
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchVisible, setIsSearchVisible] = useState(false);

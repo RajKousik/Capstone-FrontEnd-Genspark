@@ -30,7 +30,7 @@ function App() {
       <Route
         path="/login"
         element={
-          isAuthenticated ? (
+          !isAuthenticated ? (
             <LoginComponent />
           ) : (
             <Navigate to={`${navigationLink}`} />

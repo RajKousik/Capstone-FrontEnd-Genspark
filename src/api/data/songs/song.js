@@ -7,4 +7,11 @@ const getAllSongs = async () => {
   return response.data;
 };
 
-export { getAllSongs };
+const getSongById = async (songId) => {
+  const response = await axiosInstance.get(`/songs/${songId}`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export { getAllSongs, getSongById };

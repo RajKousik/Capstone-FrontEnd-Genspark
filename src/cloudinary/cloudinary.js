@@ -12,7 +12,7 @@ const uploadImage = async (file) => {
       body: formData,
     });
     const data = await response.json();
-    console.log("Image uploaded successfully:", data.secure_url);
+
     return data.secure_url;
   } catch (error) {
     console.error("Error uploading the image:", error);
@@ -31,7 +31,7 @@ const uploadAudio = async (file) => {
       body: formData,
     });
     const data = await response.json();
-    console.log("Audio uploaded successfully:", data.secure_url);
+
     return data.secure_url;
   } catch (error) {
     console.error("Error uploading the audio:", error);
