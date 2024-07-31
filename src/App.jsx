@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import RegisterComponent from "./Components/RegisterComponent/RegisterComponent";
 import LoginComponent from "./Components/LoginComponent/LoginComponent";
@@ -9,9 +9,12 @@ import UserDashboard from "./Components/UserDashboard/UserDashboard";
 import ArtistDashboard from "./Components/ArtistDashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useAuth } from "./contexts/AuthContext";
+import { MusicProvider } from "./contexts/MusicContext";
 
 function App() {
   const { isAuthenticated, user } = useAuth();
+
+  const [activeLink, setActiveLink] = useState("songs"); // Default active link
 
   var navigationLink = "login";
   if (user?.role?.toLowerCase() === "admin") {
@@ -43,7 +46,10 @@ function App() {
         path="/admin-dashboard"
         element={
           <ProtectedRoute roles={["admin"]}>
-            <AdminDashboard />
+            <AdminDashboard
+              activeLink={activeLink}
+              setActiveLink={setActiveLink}
+            />
           </ProtectedRoute>
         }
       />
@@ -51,7 +57,12 @@ function App() {
         path="/user-dashboard/*"
         element={
           <ProtectedRoute roles={["premiumuser", "normaluser"]}>
-            <UserDashboard />
+            <MusicProvider>
+              <UserDashboard
+                activeLink={activeLink}
+                setActiveLink={setActiveLink}
+              />
+            </MusicProvider>
           </ProtectedRoute>
         }
       />

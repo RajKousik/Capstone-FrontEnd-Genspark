@@ -17,13 +17,11 @@ const addSongToPlaylist = async (playlistId, songId) => {
 // Function to remove a song from a playlist
 const removeSongFromPlaylist = async (playlistId, songId) => {
   const body = { playlistId, songId };
-  console.log(body);
   try {
     const response = await axiosInstance.delete("/playlist-songs", {
       data: body,
       withCredentials: true,
     });
-    console.log(response.data);
   } catch (error) {
     console.error("Error removing song from playlist:", error);
     throw error;

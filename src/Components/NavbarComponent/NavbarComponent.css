@@ -41,8 +41,12 @@
 
 .nav-links {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   flex-grow: 1;
+}
+
+.nav-links .navbar-link-item {
+  text-transform: uppercase;
 }
 
 .user-info {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Nav, Container, Dropdown, Button } from "react-bootstrap";
+import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
 import { FaBars } from "react-icons/fa";
 import LogoWithNoBackground from "../../assets/logo/logo_no_background.png";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,9 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const NavbarComponent = ({ activeLink, setActiveComponent }) => {
+const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
   const { user, logout } = useAuth();
-
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -25,13 +24,12 @@ const NavbarComponent = ({ activeLink, setActiveComponent }) => {
       const response = await logoutUser();
       logout();
       navigate("/login");
-    }, 1000);
+    }, 2000);
   };
 
   return (
     <>
       <ToastContainer />
-
       <Navbar expand="md" className="custom-navbar">
         <Container>
           <Navbar.Toggle
@@ -58,49 +56,129 @@ const NavbarComponent = ({ activeLink, setActiveComponent }) => {
           >
             Vibe - Vault
           </Navbar.Brand>
-          <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Collapse id="basic-navbar-nav" className="me-2">
             <Nav className="me-auto nav-links">
-              <Nav.Link
-                onClick={() => setActiveComponent("profile")}
-                style={{
-                  color: activeLink === "profile" ? "#ffa500" : "inherit",
-                }}
-              >
-                Profile
-              </Nav.Link>
-              <Nav.Link
-                onClick={() => setActiveComponent("songs")}
-                style={{
-                  color: activeLink === "songs" ? "#ffa500" : "inherit",
-                }}
-              >
-                Songs
-              </Nav.Link>
-              <Nav.Link
-                onClick={() => setActiveComponent("playlists")}
-                style={{
-                  color: activeLink === "playlists" ? "#ffa500" : "inherit",
-                }}
-              >
-                Playlists
-              </Nav.Link>
-              <Nav.Link
-                onClick={() => setActiveComponent("artists")}
-                style={{
-                  color: activeLink === "artists" ? "#ffa500" : "inherit",
-                }}
-              >
-                Artists
-              </Nav.Link>
-              <Nav.Link
-                onClick={() => setActiveComponent("explore-premium")}
-                style={{
-                  color:
-                    activeLink === "explore-premium" ? "#ffa500" : "inherit",
-                }}
-              >
-                Explore Premium
-              </Nav.Link>
+              {/* Conditionally render nav links based on user role */}
+              {userRole.toLowerCase() === "premiumuser" ||
+              userRole === "normaluser" ? (
+                <>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("profile")}
+                    style={{
+                      color: activeLink === "profile" ? "#ffa500" : "inherit",
+                    }}
+                  >
+                    Profile
+                  </Nav.Link>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("songs")}
+                    style={{
+                      color: activeLink === "songs" ? "#ffa500" : "inherit",
+                    }}
+                  >
+                    Songs
+                  </Nav.Link>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("playlists")}
+                    style={{
+                      color: activeLink === "playlists" ? "#ffa500" : "inherit",
+                    }}
+                  >
+                    Playlists
+                  </Nav.Link>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("artists")}
+                    style={{
+                      color: activeLink === "artists" ? "#ffa500" : "inherit",
+                    }}
+                  >
+                    Artists
+                  </Nav.Link>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("explore-premium")}
+                    style={{
+                      color:
+                        activeLink === "explore-premium"
+                          ? "#ffa500"
+                          : "inherit",
+                    }}
+                  >
+                    Explore Premium
+                  </Nav.Link>
+                </>
+              ) : userRole === "admin" ? (
+                <>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("admin-profile")}
+                    style={{
+                      color:
+                        activeLink === "admin-profile" ? "#ffa500" : "inherit",
+                    }}
+                  >
+                    Profile
+                  </Nav.Link>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("manage-users")}
+                    style={{
+                      color:
+                        activeLink === "manage-users" ? "#ffa500" : "inherit",
+                    }}
+                  >
+                    Users
+                  </Nav.Link>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("manage-songs")}
+                    style={{
+                      color:
+                        activeLink === "manage-songs" ? "#ffa500" : "inherit",
+                    }}
+                  >
+                    Songs
+                  </Nav.Link>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("manage-artists")}
+                    style={{
+                      color:
+                        activeLink === "manage-artists" ? "#ffa500" : "inherit",
+                    }}
+                  >
+                    Artists
+                  </Nav.Link>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("manage-playlists")}
+                    style={{
+                      color:
+                        activeLink === "manage-playlists"
+                          ? "#ffa500"
+                          : "inherit",
+                    }}
+                  >
+                    Playlists
+                  </Nav.Link>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("manage-premium-users")}
+                    style={{
+                      color:
+                        activeLink === "manage-premium-users"
+                          ? "#ffa500"
+                          : "inherit",
+                    }}
+                  >
+                    Premium Users
+                  </Nav.Link>
+                </>
+              ) : null}
             </Nav>
           </Navbar.Collapse>
           <Nav className="ms-auto">

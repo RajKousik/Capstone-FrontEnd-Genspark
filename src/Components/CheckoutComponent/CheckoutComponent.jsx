@@ -34,7 +34,6 @@ const CheckoutComponent = () => {
         .then((response) => {
           setEndDate(response.endDate); // Assuming response contains endDate
           setShowNotification(true);
-          console.log(response);
         })
         .catch((error) => {
           console.error("Error fetching premium user data:", error);

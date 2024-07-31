@@ -1,0 +1,35 @@
+th.p-selection-column {
+  background-color: #ffa500;
+}
+
+/* .p-datatable-header {
+  background-color: hsl(0, 0%, 16%);
+} */
+
+.p-datatable .p-column-header-content {
+  justify-content: center;
+}
+
+.p-datatable-table {
+  padding: 10px !important;
+}
+
+ul.p-dropdown-items {
+  padding: 0;
+  margin: 0;
+}
+
+.search-bar {
+  width: 15rem;
+  border-radius: 4px;
+}
+
+.custom-button {
+  background-color: #ff725e; /* Orange button */
+  border: none;
+  color: #fff; /* White text */
+}
+
+.custom-button:hover {
+  background-color: #e55e50; /* Darker orange on hover */
+}

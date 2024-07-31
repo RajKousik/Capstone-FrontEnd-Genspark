@@ -58,4 +58,37 @@ const changeUserPassword = async (userId, passwordData) => {
   }
 };
 
-export { getUserById, updateUserById, changeUserPassword, getPremiumUserById };
+// Function to change user password
+const getAllUsers = async () => {
+  try {
+    const response = await axiosInstance.get(`/users`, {
+      withCredentials: true,
+    });
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    throw error; // Rethrow the error for further handling
+  }
+};
+
+// Function to delete user by ID
+const deleteUserById = async (userId) => {
+  try {
+    const response = await axiosInstance.delete(`/users/${userId}`, {
+      withCredentials: true,
+    });
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    throw error; // Rethrow the error for further handling
+  }
+};
+
+export {
+  getUserById,
+  updateUserById,
+  changeUserPassword,
+  getPremiumUserById,
+  getAllUsers,
+  deleteUserById, // Export the delete function
+};

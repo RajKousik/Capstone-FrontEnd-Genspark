@@ -21,7 +21,7 @@ import CheckoutComponent from "../CheckoutComponent/CheckoutComponent";
 import ProfileComponent from "../ProfileComponent/ProfileComponent";
 import SongDetailComponent from "../SongComponent/SongComponent";
 
-const UserDashboard = () => {
+const UserDashboard = ({ activeLink, setActiveLink }) => {
   const { user } = useAuth();
   const {
     setCurrentSong,
@@ -33,8 +33,12 @@ const UserDashboard = () => {
   } = useMusic();
 
   const [songsData, setSongsData] = useState([]);
-  const [activeLink, setActiveLink] = useState("songs"); // Default active link
+
   const [selectedSong, setSelectedSong] = useState(null);
+
+  useEffect(() => {
+    setActiveLink("songs");
+  }, []);
 
   useEffect(() => {
     const fetchSongsData = async () => {
@@ -81,6 +85,7 @@ const UserDashboard = () => {
   return (
     <div className="user-dashboard">
       <NavbarComponent
+        userRole={user.role}
         activeLink={activeLink}
         setActiveComponent={setActiveLink}
       />

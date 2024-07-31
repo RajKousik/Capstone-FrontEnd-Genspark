@@ -21,4 +21,11 @@ const getSongByGenre = async (genre) => {
   return response.data;
 };
 
-export { getAllSongs, getSongById, getSongByGenre };
+const deleteSongById = async (songId) => {
+  const response = await axiosInstance.delete(`/songs/${songId}`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export { getAllSongs, getSongById, getSongByGenre, deleteSongById };

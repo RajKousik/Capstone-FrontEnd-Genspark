@@ -13,4 +13,21 @@ const logoutUser = async () => {
   }
 };
 
-export { logoutUser };
+// Function to verify an artist
+const verifyArtist = async (artistId) => {
+  try {
+    const response = await axiosInstance.put(
+      `/auth/artist/verify?artistId=${artistId}`,
+      null,
+      {
+        withCredentials: true, // Include credentials in the request
+      }
+    );
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error("Error verifying artist:", error);
+    throw error; // Rethrow the error for handling in the calling function
+  }
+};
+
+export { logoutUser, verifyArtist };
