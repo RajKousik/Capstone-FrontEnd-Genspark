@@ -1,5 +1,5 @@
-import React from "react";
-import { Card, Button, Container, Row, Col } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Card, Button, Container, Row, Col, Toast } from "react-bootstrap";
 import { loadStripe } from "@stripe/stripe-js";
 import { useAuth } from "../contexts/AuthContext";
 import "../css/CheckoutComponent.css"; // Create a CSS file for custom styling
@@ -7,12 +7,41 @@ import { createCheckoutSession } from "../api/utility/stripePayment";
 import PremiumLogo1 from "../assets/images/premium_upgrade_logo_1.jpg";
 import PremiumLogo2 from "../assets/images/premium_upgrade_logo_2.jpg";
 import PremiumLogo3 from "../assets/images/premium_upgrade_logo_3.jpg";
+import { useMusic } from "../contexts/MusicContext";
+import PremiumNotification from "../Components/PremiumNotificationComponent/PremiumNotificationComponent"; // Import the new component
+import { getPremiumUserById } from "../api/data/users/user"; // Import your API function
+import { InfoCircle } from "react-bootstrap-icons";
+import { formatDateTime } from "../api/utility/commonUtils";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutComponent = () => {
+  const { isPlayerVisible, setIsPlayerVisible } = useMusic();
+
+  useEffect(() => {
+    setIsPlayerVisible(false);
+  }, []);
+
   const { user } = useAuth();
-  const [loadingButton, setLoadingButton] = React.useState(null); // Track which button is loading
+  const [loadingButton, setLoadingButton] = useState(null); // Track which button is loading
+  const [showNotification, setShowNotification] = useState(true); // State to control notification
+  const [endDate, setEndDate] = useState(""); // State to store subscription end date
+
+  useEffect(() => {
+    // Check if user is a premium user and fetch subscription end date
+    if (user.role.toLowerCase() === "premiumuser") {
+      getPremiumUserById(user.userId)
+        .then((response) => {
+          setEndDate(response.endDate); // Assuming response contains endDate
+          setShowNotification(true);
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error("Error fetching premium user data:", error);
+        });
+    }
+    setEndDate(true);
+  }, [user.role, user.userId]);
 
   const handleCheckout = async (amount, durationInDays, buttonId) => {
     setLoadingButton(buttonId); // Set the loading button
@@ -39,6 +68,7 @@ const CheckoutComponent = () => {
 
   return (
     <Container className="checkout-container">
+      {showNotification && endDate && <PremiumNotification />}
       <Row className="justify-content-md-center">
         <Col md="auto" className="d-flex justify-content-center">
           <Card className="mb-4">

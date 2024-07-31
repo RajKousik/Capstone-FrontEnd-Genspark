@@ -1,0 +1,233 @@
+.profile-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: stretch;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  height: 100vh;
+  font-family: "Arial", sans-serif;
+}
+
+.profile-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  /* For smaller screens */
+}
+
+.profile-image {
+  width: 50%;
+  text-align: center;
+}
+
+.profile-img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  border: 2px solid #ffa500; /* Optional border */
+}
+
+.profile-info {
+  width: 60%;
+  padding: 0 20px;
+}
+
+.profile-field {
+  margin-bottom: 15px;
+}
+
+.profile-field label {
+  font-weight: bold;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.profile-field span,
+.profile-field input {
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.profile-actions {
+  margin-top: 20px;
+}
+
+.profile-actions button {
+  margin-right: 10px;
+}
+
+.vertical-line {
+  width: 1px;
+  background-color: #ddd;
+  margin: 0 20px;
+}
+
+/* .info-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.info-card {
+  max-width: 300px;
+}
+
+.info-card h2 {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.info-card h2 .FaCrown,
+.info-card h2 .FaExclamationCircle {
+  margin-right: 10px;
+}
+
+.info-card p,
+.info-card ul {
+  font-size: 14px;
+  color: #333;
+}
+
+.info-card ul {
+  list-style-type: disc;
+  margin-left: 20px;
+  text-align: left;
+} */
+
+.info-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.info-card {
+  max-width: 300px;
+  text-align: left; /* Align text to the left */
+}
+
+.info-card h2 {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #ffa500; /* Set header color */
+}
+
+.info-card p,
+.info-card ul {
+  font-size: 16px; /* Set font size */
+  color: #333; /* Set font color */
+}
+
+.info-card ul {
+  list-style-type: decimal; /* Change list style to decimal (1, 2, 3) */
+  margin-left: 20px; /* Add margin for left alignment */
+  padding-left: 0; /* Remove default padding */
+}
+
+.info-card ul li {
+  margin-bottom: 5px; /* Add spacing between list items */
+}
+
+.info-card button {
+  margin-top: 20px;
+  background-color: #ffa500;
+  border-color: #ffa500;
+  color: white;
+  font-weight: bold;
+}
+
+.info-card button:hover {
+  background-color: #e59400;
+  border-color: #e59400;
+  color: white;
+}
+
+.password-input {
+  position: relative; /* Position relative for absolute positioning of icon */
+}
+
+.password-input input {
+  width: 100%; /* Ensure the input takes full width */
+  padding-right: 40px; /* Add padding to the right to avoid overlap with the icon */
+}
+
+.password-eye-icon {
+  position: absolute; /* Position icon absolutely */
+  right: 10px; /* Position the icon 10px from the right */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust for perfect vertical alignment */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  color: #aaa; /* Optional: Change color for better visibility */
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+
+  .profile-section {
+    flex-direction: column;
+    align-items: center;
+    margin-right: 0;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .profile-info {
+    width: 100%;
+    padding: 0;
+  }
+
+  .profile-field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-field label,
+  .profile-field span,
+  .profile-field input {
+    width: 100%;
+    text-align: center;
+  }
+
+  .profile-img {
+    border-radius: 50%;
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  .vertical-line {
+    display: none;
+  }
+
+  .info-section {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .info-card {
+    width: 100%;
+    padding: 20px;
+  }
+}

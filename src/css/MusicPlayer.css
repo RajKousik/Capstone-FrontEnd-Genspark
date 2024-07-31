@@ -7,9 +7,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 10px;
   height: 100px;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.music-player.hidden {
+  display: none;
 }
 
 .left,
@@ -23,15 +27,17 @@
   flex: 1;
 }
 
-.song-image {
-  height: 60px;
-  width: 60px;
+.music-player .song-image {
+  height: 50px;
+  width: 50px;
   object-fit: cover;
   border-radius: 5px;
+  margin-left: 30px;
+  margin-right: 10px;
 }
 
-.song-info {
-  margin-left: 15px;
+.music-player .song-info {
+  /* margin-left: 15px; */
 }
 
 .song-name {

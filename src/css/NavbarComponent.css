@@ -56,12 +56,38 @@
   margin-right: 10px;
 }
 
-.user-name {
+.user-info .user-name,
+.user-info .user-avatar {
   color: #fff;
+  cursor: pointer;
+}
+
+.user-info-dropdown .dropdown-menu {
+  min-width: 150px; /* Set a minimum width for the dropdown */
+}
+
+.user-info-dropdown .dropdown-toggle {
+  display: flex; /* Flexbox for better alignment */
+  align-items: center; /* Center items vertically */
+}
+
+.user-info-dropdown .dropdown-toggle::after {
+  cursor: pointer;
+}
+
+@media (max-width: 576px) {
+  .user-info-dropdown .dropdown-menu {
+    position: absolute; /* Ensure it doesn't take full width */
+    right: 0; /* Align to the right */
+  }
 }
 
 /* Responsive Design for Smaller Screens */
 @media (max-width: 768px) {
+  .user-info-dropdown .dropdown-menu {
+    position: absolute; /* Ensure it doesn't take full width */
+    right: 0; /* Align to the right */
+  }
   .hamburger-icon {
     display: block; /* Show hamburger on smaller screens */
   }

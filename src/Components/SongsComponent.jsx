@@ -10,7 +10,7 @@ import {
 import "../css/SongsComponent.css";
 import { useMusic } from "../contexts/MusicContext";
 
-const SongsComponent = () => {
+const SongsComponent = ({ setActiveLink, setSelectedSong }) => {
   const {
     currentSong,
     isPlaying,
@@ -19,6 +19,8 @@ const SongsComponent = () => {
     setCurrentSong,
     songs, // Access songs from context
     toggleLike,
+    isPlayerVisible,
+    setIsPlayerVisible,
   } = useMusic();
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchVisible, setIsSearchVisible] = useState(false);
@@ -37,6 +39,7 @@ const SongsComponent = () => {
       setCurrentSong(song);
       setIsPlaying(true);
     }
+    setIsPlayerVisible(true);
   };
 
   const handleRowClick = (song) => {
@@ -47,6 +50,12 @@ const SongsComponent = () => {
   const toggleSearch = () => {
     setIsSearchVisible(!isSearchVisible);
     setSearchQuery("");
+  };
+
+  const songInfoClick = (song) => {
+    // setActiveLink(song);
+    setSelectedSong(song);
+    setActiveLink("song");
   };
 
   const filteredSongs = songs.filter((song) =>
@@ -81,7 +90,7 @@ const SongsComponent = () => {
         </span>
         <span className="header-album text-center">Album</span>
         <span className="header-releaseDate text-center">Release</span>
-        <span className="header-likes text-center">Likes</span>
+        <span className="header-likes text-center"></span>
       </div>
       <div className="songs-list">
         {filteredSongs.map((song, index) => (
@@ -110,9 +119,19 @@ const SongsComponent = () => {
               )}
             </div>
             <div className="songs-song-info">
-              <img src={song.imageUrl} alt="Song" className="song-image" />
+              <img
+                src={song.imageUrl}
+                alt="Song"
+                className="song-image"
+                onClick={() => songInfoClick(song)}
+              />
               <div className="song-details">
-                <span className="song-title">{song.title}</span>
+                <span
+                  className="song-title"
+                  onClick={() => songInfoClick(song)}
+                >
+                  {song.title}
+                </span>
                 <span className="song-artist">{song.artistName}</span>
               </div>
             </div>

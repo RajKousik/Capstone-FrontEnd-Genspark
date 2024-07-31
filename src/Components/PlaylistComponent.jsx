@@ -70,6 +70,12 @@ const PlaylistComponent = () => {
     setSongs,
   } = useMusic();
 
+  const { isPlayerVisible, setIsPlayerVisible } = useMusic();
+
+  useEffect(() => {
+    setIsPlayerVisible(false);
+  }, []);
+
   useEffect(() => {
     const fetchPlaylists = async () => {
       try {
@@ -199,10 +205,12 @@ const PlaylistComponent = () => {
 
   const handleAddPlaylist = async () => {
     try {
-      const addedPlaylist = await createPlaylist({
+      const playlist = await createPlaylist({
         ...newPlaylist,
         userId: user.userId,
       });
+      const response = await getUserById(playlist.userId);
+      const addedPlaylist = { ...playlist, owner: response.username };
       setMyPlaylists([...myPlaylists, addedPlaylist]);
       setShowAddModal(false);
       setNewPlaylist({ name: "", isPublic: true, imageUrl: "" }); // Reset form

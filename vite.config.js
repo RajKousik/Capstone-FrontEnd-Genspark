@@ -8,12 +8,6 @@ const cherryPickedKeys = [
   "REACT_APP_STRIPE_PUBLISHABLE_KEY",
 ];
 
-// https://vitejs.dev/config/
-// export default defineConfig({
-//   plugins: [react(), mkcert()],
-//   server: { port: 3000, https: true },
-// });
-
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const processEnv = {};

@@ -1,0 +1,99 @@
+.song-detail-container {
+  height: 88vh; /* Full viewport height */
+  padding: 10px 25px;
+}
+
+.song-detail-container .song-image-col {
+  padding: 0 20px;
+}
+
+.song-detail-container .song-info-container {
+  flex: 10;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.song-detail-container .song-image {
+  height: 100%; /* Full height */
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.song-detail-container .song-info-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+
+.song-detail-container .song-title {
+  font-size: 2.5rem; /* Larger font size for song title */
+  font-family: "Arial", sans-serif; /* Different font for title */
+}
+
+.song-detail-container .rating-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.song-detail-container .rating-star {
+  font-size: 2rem; /* Larger star size */
+  cursor: pointer;
+  margin-right: 5px;
+  /* text-shadow: 0 0 5px #ffa500; */
+}
+
+.song-detail-container .rating-star.active {
+  color: #ffa500;
+  text-shadow: none;
+  /* background-color: #ffa500; */
+}
+
+.song-detail-container .submit-btn {
+  font-size: 0.8rem; /* Smaller font size */
+  color: #ffa500;
+  border-color: #ffa500;
+  background-color: transparent;
+  margin-left: 10px;
+}
+
+.song-detail-container .submit-btn:hover {
+  background-color: #ffa500;
+  color: #fff;
+}
+
+.song-detail-container .play-pause-container {
+  margin-top: 20px;
+}
+
+.song-detail-container .play-pause-btn {
+  font-size: 2rem;
+  color: #fff;
+  background-color: #ffa500;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.song-detail-container .play-pause-btn:hover {
+  background-color: #ffcc00;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .song-detail-container .song-image {
+    height: auto;
+    width: 100%; /* Image becomes square */
+    object-fit: contain;
+  }
+
+  .song-detail-container .song-info-col {
+    margin-top: 20px;
+  }
+}

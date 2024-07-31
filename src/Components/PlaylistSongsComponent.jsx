@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   Button,
@@ -55,6 +55,12 @@ const PlaylistSongsComponent = ({
   const [showClearModal, setShowClearModal] = useState(false);
   const [selectedSong, setSelectedSong] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const { isPlayerVisible, setIsPlayerVisible } = useMusic();
+
+  useEffect(() => {
+    setIsPlayerVisible(false);
+  }, []);
 
   const handlePlayPause = (song) => {
     if (currentSong.songId === song.songId) {

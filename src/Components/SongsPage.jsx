@@ -12,7 +12,7 @@ import {
   deleteFavoriteSong,
 } from "../api/data/favorites/favorite";
 
-const SongsPage = ({ activeLink }) => {
+const SongsPage = ({ activeLink, setActiveLink, setSelectedSong }) => {
   const {
     currentSong,
     setCurrentSong,
@@ -62,7 +62,12 @@ const SongsPage = ({ activeLink }) => {
     // fetchFavoriteSongs();
   }, [user, setCurrentSong, setLikedSongs, setSongs, activeLink]);
 
-  return <SongsComponent />;
+  return (
+    <SongsComponent
+      setActiveLink={setActiveLink}
+      setSelectedSong={setSelectedSong}
+    />
+  );
 };
 
 export default SongsPage;

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Navbar, Nav, Container, Dropdown, Button } from "react-bootstrap";
 import {
   FaPlay,
   FaPause,
@@ -7,9 +8,15 @@ import {
   FaVolumeUp,
   FaVolumeMute,
   FaHeart,
+  FaChevronDown,
+  FaChevronUp,
 } from "react-icons/fa";
 import "../css/MusicPlayer.css";
 import { useMusic } from "../contexts/MusicContext";
+import {
+  IoIosArrowDropdownCircle,
+  IoIosArrowDropupCircle,
+} from "react-icons/io";
 
 const MusicPlayer = () => {
   const audioRef = useRef(null);
@@ -22,33 +29,20 @@ const MusicPlayer = () => {
     setCurrentSong,
     songs, // Access songs from context
     toggleLike,
+    isPlayerVisible,
+    setIsPlayerVisible,
   } = useMusic();
 
+  useEffect(() => {
+    setIsPlayerVisible(false);
+  }, []);
+
   const [isMuted, setIsMuted] = useState(false);
-  const [volume, setVolume] = useState(0);
+  const [volume, setVolume] = useState(5);
   const [isLiked, setIsLiked] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-
-  // useEffect(() => {
-  //   if (currentSong === null) {
-  //     setCurrentSong(songs[0]);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   const handleKeyDown = (event) => {
-  //     if (document.activeElement !== document.getElementById("search-input")) {
-  //       if (event.code === "Space") {
-  //         event.preventDefault(); // Prevent scrolling when space bar is pressed
-  //         setIsPlaying((prev) => !prev);
-  //       }
-  //     }
-  //   };
-
-  //   document.addEventListener("keydown", handleKeyDown);
-  //   return () => document.removeEventListener("keydown", handleKeyDown);
-  // }, [setIsPlaying]);
+  // const [isPlayerVisible, setIsPlayerVisible] = useState(true);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -86,7 +80,7 @@ const MusicPlayer = () => {
     if (audioRef.current) {
       audioRef.current.addEventListener("ended", handleNext);
       return () => {
-        audioRef.current.removeEventListener("ended", handleNext);
+        audioRef?.current?.removeEventListener("ended", handleNext);
       };
     }
   }, [currentSong, songs]);
@@ -104,6 +98,9 @@ const MusicPlayer = () => {
   };
 
   const toggleMute = () => {
+    if (isMuted && volume == 0) {
+      setVolume(10);
+    }
     setIsMuted(!isMuted);
     audioRef.current.muted = !isMuted;
   };
@@ -138,146 +135,169 @@ const MusicPlayer = () => {
   };
 
   return (
-    <div className="music-player">
-      <audio
-        ref={audioRef}
-        src={currentSong ? currentSong.url : ""}
-        onTimeUpdate={handleTimeUpdate}
-        onLoadedMetadata={handleLoadedMetadata}
-      />
-      <div className="left">
-        <img
-          // src="https://via.placeholder.com/50"
-          src={currentSong?.imageUrl || "https://via.placeholder.com/50"}
-          alt="Song"
-          className="song-image"
-        />
-        <div className="song-info">
-          <span className="song-name">
-            {currentSong?.title || "Unknown Title"}
-          </span>
-          <span className="song-artist">
-            {currentSong?.artistName || "Unknown Artist"}
-          </span>
-        </div>
-        <FaHeart
-          className={`control-icon heart-icon ${
-            likedSongs.has(currentSong?.id) ? "liked" : ""
-          }`}
-          onClick={() => toggleLike(currentSong?.id)}
+    <>
+      <div
+        className={`position-fixed ${isPlayerVisible ? "hidden" : ""}`}
+        style={{ bottom: "5px", left: "5px" }}
+      >
+        <IoIosArrowDropupCircle
+          onClick={() => setIsPlayerVisible(true)}
+          className="toggle-icon"
+          style={{ cursor: "pointer", fontSize: "30px", color: "#ffa500" }}
         />
       </div>
-      <div className="center">
-        <div className="group">
-          <span className="song-name" id="md-screen">
-            {currentSong?.title || "Unknown Title"}
-          </span>
-          <div className="controls">
-            <FaStepBackward
-              className={`control-icon ${
-                songs?.findIndex((song) => song?.id === currentSong?.id) === 0
-                  ? "disabled"
-                  : ""
-              }`}
-              onClick={handlePrevious}
+      <div className={`music-player ${isPlayerVisible ? "" : "hidden"}`}>
+        <audio
+          ref={audioRef}
+          src={currentSong ? currentSong.url : ""}
+          onTimeUpdate={handleTimeUpdate}
+          onLoadedMetadata={handleLoadedMetadata}
+        />
+        <div
+          className="toggle-visibility position-fixed"
+          style={{ bottom: "75px" }}
+        >
+          {isPlayerVisible && (
+            <IoIosArrowDropdownCircle
+              onClick={() => setIsPlayerVisible(false)}
+              className="toggle-icon position-relative"
+              style={{ fontSize: "25px", top: "5px", cursor: "pointer" }}
             />
-            {isPlaying ? (
-              <FaPause
-                className="control-icon pause-button"
-                onClick={togglePlayPause}
-              />
-            ) : (
-              <FaPlay
-                className="control-icon play-button"
-                onClick={togglePlayPause}
-              />
-            )}
-            <FaStepForward
-              className={`control-icon ${
-                songs.findIndex((song) => song.id === currentSong.id) ===
-                songs.length - 1
-                  ? "disabled"
-                  : ""
-              }`}
-              onClick={handleNext}
-            />
+          )}
+        </div>
+        <div className="left">
+          <img
+            src={currentSong?.imageUrl || "https://via.placeholder.com/50"}
+            alt="Song"
+            className="song-image"
+          />
+          <div className="song-info">
+            <span className="song-name">
+              {currentSong?.title || "Unknown Title"}
+            </span>
+            <span className="song-artist">
+              {currentSong?.artistName || "Unknown Artist"}
+            </span>
           </div>
-
-          <div className="group-right">
-            <FaHeart
-              id="md-screen"
-              className={`control-icon heart-icon ${
-                likedSongs.has(currentSong?.id) ? "liked" : ""
-              }`}
-              onClick={() => toggleLike(currentSong?.id)}
-            />
-            <div className="volume-control" id="volume-icon">
-              {isMuted ? (
-                <FaVolumeMute
-                  className="control-icon volume-icon"
-                  onClick={toggleMute}
+          <FaHeart
+            className={`control-icon heart-icon ${
+              likedSongs.has(currentSong?.id) ? "liked" : ""
+            }`}
+            onClick={() => toggleLike(currentSong?.id)}
+          />
+        </div>
+        <div className="center">
+          <div className="group">
+            <span className="song-name" id="md-screen">
+              {currentSong?.title || "Unknown Title"}
+            </span>
+            <div className="controls">
+              <FaStepBackward
+                className={`control-icon ${
+                  songs?.findIndex((song) => song?.id === currentSong?.id) === 0
+                    ? "disabled"
+                    : ""
+                }`}
+                onClick={handlePrevious}
+              />
+              {isPlaying ? (
+                <FaPause
+                  className="control-icon pause-button"
+                  onClick={togglePlayPause}
                 />
               ) : (
-                <FaVolumeUp
-                  className="control-icon volume-icon"
-                  onClick={toggleMute}
+                <FaPlay
+                  className="control-icon play-button"
+                  onClick={togglePlayPause}
                 />
               )}
-              <div className="volume-input">
-                <input
-                  type="range"
-                  className="volume"
-                  id="input-volume"
-                  min="0"
-                  max="100"
-                  value={volume}
-                  onChange={handleVolumeChange}
-                />
+              <FaStepForward
+                className={`control-icon ${
+                  songs.findIndex((song) => song.id === currentSong.id) ===
+                  songs.length - 1
+                    ? "disabled"
+                    : ""
+                }`}
+                onClick={handleNext}
+              />
+            </div>
+
+            <div className="group-right">
+              <FaHeart
+                id="md-screen"
+                className={`control-icon heart-icon ${
+                  likedSongs.has(currentSong?.id) ? "liked" : ""
+                }`}
+                onClick={() => toggleLike(currentSong?.id)}
+              />
+              <div className="volume-control" id="volume-icon">
+                {isMuted ? (
+                  <FaVolumeMute
+                    className="control-icon volume-icon"
+                    onClick={toggleMute}
+                  />
+                ) : (
+                  <FaVolumeUp
+                    className="control-icon volume-icon"
+                    onClick={toggleMute}
+                  />
+                )}
+                <div className="volume-input">
+                  <input
+                    type="range"
+                    className="volume"
+                    id="input-volume"
+                    min="0"
+                    max="100"
+                    value={volume}
+                    onChange={handleVolumeChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
+          <div className="progress-container">
+            <span className="time start">
+              {Math.floor(currentTime / 60)}:
+              {Math.floor(currentTime % 60)
+                .toString()
+                .padStart(2, "0")}
+            </span>
+            <input
+              type="range"
+              className="progress"
+              min="0"
+              max={duration}
+              value={currentTime}
+              onChange={(e) => (audioRef.current.currentTime = e.target.value)}
+            />
+            <span className="time end">
+              {Math.floor(duration / 60)}:
+              {Math.floor(duration % 60)
+                .toString()
+                .padStart(2, "0")}
+            </span>
+          </div>
         </div>
-        <div className="progress-container">
-          <span className="time start">
-            {Math.floor(currentTime / 60)}:
-            {Math.floor(currentTime % 60)
-              .toString()
-              .padStart(2, "0")}
-          </span>
-          <input
-            type="range"
-            className="progress"
-            min="0"
-            max={duration}
-            value={currentTime}
-            onChange={(e) => (audioRef.current.currentTime = e.target.value)}
-          />
-          <span className="time end">
-            {Math.floor(duration / 60)}:
-            {Math.floor(duration % 60)
-              .toString()
-              .padStart(2, "0")}
-          </span>
+        <div className="right">
+          <div className="volume-control">
+            {isMuted ? (
+              <FaVolumeMute className="control-icon" onClick={toggleMute} />
+            ) : (
+              <FaVolumeUp className="control-icon" onClick={toggleMute} />
+            )}
+            <input
+              type="range"
+              className="volume"
+              min="0"
+              max="100"
+              value={volume}
+              onChange={handleVolumeChange}
+            />
+          </div>
         </div>
       </div>
-      <div className="right">
-        <div className="volume-control">
-          {isMuted ? (
-            <FaVolumeMute className="control-icon" onClick={toggleMute} />
-          ) : (
-            <FaVolumeUp className="control-icon" onClick={toggleMute} />
-          )}
-          <input
-            type="range"
-            className="volume"
-            min="0"
-            max="100"
-            value={volume}
-            onChange={handleVolumeChange}
-          />
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 

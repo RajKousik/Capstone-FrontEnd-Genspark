@@ -18,6 +18,8 @@ import { useAuth } from "../contexts/AuthContext";
 import { useMusic } from "../contexts/MusicContext";
 import SongsPage from "./SongsPage";
 import CheckoutComponent from "./CheckoutComponent";
+import ProfileComponent from "./ProfileComponent/ProfileComponent";
+import SongDetailComponent from "./SongComponent/SongComponent";
 
 const UserDashboard = () => {
   const { user } = useAuth();
@@ -32,6 +34,7 @@ const UserDashboard = () => {
 
   const [songsData, setSongsData] = useState([]);
   const [activeLink, setActiveLink] = useState("songs"); // Default active link
+  const [selectedSong, setSelectedSong] = useState(null);
 
   useEffect(() => {
     const fetchSongsData = async () => {
@@ -70,19 +73,10 @@ const UserDashboard = () => {
     fetchFavoriteSongs();
   }, [user, setCurrentSong, setLikedSongs, setSongs]);
 
-  // const toggleLike = async (songId) => {
-  //   if (likedSongs.has(songId)) {
-  //     await deleteFavoriteSong(user.userId, songId);
-  //     setLikedSongs((prevLikedSongs) => {
-  //       const newLikedSongs = new Set(prevLikedSongs);
-  //       newLikedSongs.delete(songId);
-  //       return newLikedSongs;
-  //     });
-  //   } else {
-  //     await addFavoriteSong(user.userId, songId);
-  //     setLikedSongs((prevLikedSongs) => new Set(prevLikedSongs).add(songId));
-  //   }
-  // };
+  // function handleSongClick(song) {
+  //   // setSelectedSong(song);
+  //   setActiveLink("song");
+  // }
 
   return (
     <div className="user-dashboard">
@@ -91,9 +85,22 @@ const UserDashboard = () => {
         setActiveComponent={setActiveLink}
       />
       <div className="content">
-        {activeLink === "songs" && <SongsPage activeLink={activeLink} />}
+        {activeLink === "profile" && (
+          <ProfileComponent
+            activeLink={activeLink}
+            setActiveComponent={setActiveLink}
+          />
+        )}
+        {activeLink === "songs" && (
+          <SongsPage
+            activeLink={activeLink}
+            setSelectedSong={setSelectedSong}
+            setActiveLink={setActiveLink}
+          />
+        )}
         {activeLink === "playlists" && <PlaylistComponent />}
         {activeLink === "explore-premium" && <CheckoutComponent />}
+        {activeLink === "song" && <SongDetailComponent song={selectedSong} />}
         {/* Add more components based on activeLink */}
       </div>
       <MusicPlayer />

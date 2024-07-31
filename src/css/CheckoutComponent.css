@@ -1,5 +1,5 @@
 .checkout-container {
-  padding-top: 20px;
+  padding-top: 10px;
   padding-bottom: 20px;
 }
 
@@ -10,11 +10,11 @@
 }
 
 .checkout-container .card:hover {
-  transform: scale(1.05);
+  transform: scale(1.01);
 }
 
 .checkout-container .card-img-top {
-  height: 200px;
+  height: 300px;
   object-fit: cover;
 }
 

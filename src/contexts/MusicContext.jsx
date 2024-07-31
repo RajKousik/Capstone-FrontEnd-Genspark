@@ -1,37 +1,3 @@
-// // src/contexts/MusicContext.js
-// import React, { createContext, useContext, useState } from "react";
-
-// const MusicContext = createContext();
-
-// export const MusicProvider = ({ children }) => {
-//   const [currentSong, setCurrentSong] = useState(null);
-//   const [isPlaying, setIsPlaying] = useState(false);
-//   const [likedSongs, setLikedSongs] = useState(new Set());
-//   const [songs, setSongs] = useState([]);
-
-//   return (
-//     <MusicContext.Provider
-//       value={{
-//         currentSong,
-//         setCurrentSong,
-//         isPlaying,
-//         setIsPlaying,
-//         likedSongs,
-//         setLikedSongs,
-//         songs,
-//         setSongs,
-//       }}
-//     >
-//       {children}
-//     </MusicContext.Provider>
-//   );
-// };
-
-// export const useMusic = () => {
-//   return useContext(MusicContext);
-// };
-
-// src/contexts/MusicContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
 import {
   getFavoritesByUserId,
@@ -49,6 +15,7 @@ export const MusicProvider = ({ children }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [likedSongs, setLikedSongs] = useState(new Set());
   const [songs, setSongs] = useState([]);
+  const [isPlayerVisible, setIsPlayerVisible] = useState(true);
 
   useEffect(() => {
     const fetchFavoriteSongs = async () => {
@@ -90,6 +57,8 @@ export const MusicProvider = ({ children }) => {
         songs,
         setSongs,
         toggleLike, // Add toggleLike function to context
+        isPlayerVisible,
+        setIsPlayerVisible,
       }}
     >
       {children}
