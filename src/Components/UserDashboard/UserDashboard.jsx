@@ -5,21 +5,21 @@ import NavbarComponent from "./NavbarComponent";
 import SongsComponent from "./SongsComponent";
 import PlaylistComponent from "./PlaylistComponent";
 import "../css/UserDashboard.css";
-import { getAllSongs } from "../api/data/songs/song";
-import { getArtistById } from "../api/data/artists/artist";
-import { getAlbumById } from "../api/data/albums/album";
-import { formatDateTime } from "../api/utility/commonUtils";
+import { getAllSongs } from "../../api/data/songs/song";
+import { getArtistById } from "../../api/data/artists/artist";
+import { getAlbumById } from "../../api/data/albums/album";
+import { formatDateTime } from "../../api/utility/commonUtils";
 import {
   getFavoritesByUserId,
   addFavoriteSong,
   deleteFavoriteSong,
-} from "../api/data/favorites/favorite";
-import { useAuth } from "../contexts/AuthContext";
-import { useMusic } from "../contexts/MusicContext";
+} from "../../api/data/favorites/favorite";
+import { useAuth } from "../../contexts/AuthContext";
+import { useMusic } from "../../contexts/MusicContext";
 import SongsPage from "./SongsPage";
 import CheckoutComponent from "./CheckoutComponent";
-import ProfileComponent from "./ProfileComponent/ProfileComponent";
-import SongDetailComponent from "./SongComponent/SongComponent";
+import ProfileComponent from "../ProfileComponent/ProfileComponent";
+import SongDetailComponent from "../SongComponent/SongComponent";
 
 const UserDashboard = () => {
   const { user } = useAuth();

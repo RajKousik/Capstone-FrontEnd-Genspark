@@ -12,7 +12,7 @@ import {
   FaChevronUp,
 } from "react-icons/fa";
 import "../css/MusicPlayer.css";
-import { useMusic } from "../contexts/MusicContext";
+import { useMusic } from "../../contexts/MusicContext";
 import {
   IoIosArrowDropdownCircle,
   IoIosArrowDropupCircle,

@@ -8,7 +8,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import "../css/SongsComponent.css";
-import { useMusic } from "../contexts/MusicContext";
+import { useMusic } from "../../contexts/MusicContext";
 
 const SongsComponent = ({ setActiveLink, setSelectedSong }) => {
   const {

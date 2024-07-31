@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import RegisterPageImage from "./../assets/images/RegisterLoginImage.jpg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import axiosInstance from "../api/axiosConfig";
+import axiosInstance from "../../api/axiosConfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

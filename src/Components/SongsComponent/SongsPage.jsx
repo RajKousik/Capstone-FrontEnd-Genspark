@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
-import { useMusic } from "../contexts/MusicContext";
+import { useMusic } from "../../contexts/MusicContext";
 import SongsComponent from "./SongsComponent";
-import { useAuth } from "../contexts/AuthContext";
-import { getAllSongs } from "../api/data/songs/song";
-import { getArtistById } from "../api/data/artists/artist";
-import { getAlbumById } from "../api/data/albums/album";
-import { formatDateTime } from "../api/utility/commonUtils";
+import { useAuth } from "../../contexts/AuthContext";
+import { getAllSongs } from "../../api/data/songs/song";
+import { getArtistById } from "../../api/data/artists/artist";
+import { getAlbumById } from "../../api/data/albums/album";
+import { formatDateTime } from "../../api/utility/commonUtils";
 import {
   getFavoritesByUserId,
   addFavoriteSong,
   deleteFavoriteSong,
-} from "../api/data/favorites/favorite";
+} from "../../api/data/favorites/favorite";
 
 const SongsPage = ({ activeLink, setActiveLink, setSelectedSong }) => {
   const {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Card, Spinner } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
-import axiosInstance from "../api/axiosConfig";
+import axiosInstance from "../../api/axiosConfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

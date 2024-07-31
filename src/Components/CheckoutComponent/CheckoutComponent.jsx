@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Card, Button, Container, Row, Col, Toast } from "react-bootstrap";
 import { loadStripe } from "@stripe/stripe-js";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import "../css/CheckoutComponent.css"; // Create a CSS file for custom styling
-import { createCheckoutSession } from "../api/utility/stripePayment";
+import { createCheckoutSession } from "../../api/utility/stripePayment";
 import PremiumLogo1 from "../assets/images/premium_upgrade_logo_1.jpg";
 import PremiumLogo2 from "../assets/images/premium_upgrade_logo_2.jpg";
 import PremiumLogo3 from "../assets/images/premium_upgrade_logo_3.jpg";
-import { useMusic } from "../contexts/MusicContext";
-import PremiumNotification from "../Components/PremiumNotificationComponent/PremiumNotificationComponent"; // Import the new component
-import { getPremiumUserById } from "../api/data/users/user"; // Import your API function
+import { useMusic } from "../../contexts/MusicContext";
+import PremiumNotification from "../PremiumNotificationComponent/PremiumNotificationComponent"; // Import the new component
+import { getPremiumUserById } from "../../api/data/users/user"; // Import your API function
 import { InfoCircle } from "react-bootstrap-icons";
-import { formatDateTime } from "../api/utility/commonUtils";
+import { formatDateTime } from "../../api/utility/commonUtils";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 

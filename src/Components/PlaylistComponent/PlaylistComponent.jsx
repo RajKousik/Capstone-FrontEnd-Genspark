@@ -17,29 +17,29 @@ import {
   createPlaylist,
   deletePlaylist,
   updatePlaylist,
-} from "../api/data/playlists/playlist"; // Adjust the import path as necessary
+} from "../../api/data/playlists/playlist"; // Adjust the import path as necessary
 
 import {
   getFavoritePlaylistsByUserId,
   addFavoritePlaylist,
   deleteFavoritePlaylist,
-} from "../api/data/favorites/favorite"; // Adjust the import path as necessary
+} from "../../api/data/favorites/favorite"; // Adjust the import path as necessary
 
-import { getUserById } from "../api/data/users/user";
+import { getUserById } from "../../api/data/users/user";
 
-import { useAuth } from "../contexts/AuthContext"; // Adjust the import path as necessary
-import { uploadImage } from "../cloudinary/cloudinary";
+import { useAuth } from "../../contexts/AuthContext"; // Adjust the import path as necessary
+import { uploadImage } from "../../cloudinary/cloudinary";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SongsComponent from "./SongsComponent";
-import { useMusic } from "../contexts/MusicContext";
-import { getSongByGenre, getSongById } from "../api/data/songs/song";
-import { getArtistById } from "../api/data/artists/artist";
-import { getAlbumById } from "../api/data/albums/album";
-import { formatDateTime } from "../api/utility/commonUtils";
-import PlaylistSongsComponent from "./PlaylistSongsComponent";
-import { getSongsByPlaylistId } from "../api/data/playlistsongs/playlistsongs";
-import GenreTypes from "../api/utility/genreTypes";
+import { useMusic } from "../../contexts/MusicContext";
+import { getSongByGenre, getSongById } from "../../api/data/songs/song";
+import { getArtistById } from "../../api/data/artists/artist";
+import { getAlbumById } from "../../api/data/albums/album";
+import { formatDateTime } from "../../api/utility/commonUtils";
+import PlaylistSongsComponent from "../PlaylistSongsComponent/PlaylistSongsComponent";
+import { getSongsByPlaylistId } from "../../api/data/playlistsongs/playlistsongs";
+import GenreTypes from "../../api/utility/genreTypes";
 
 const PlaylistComponent = () => {
   const { user } = useAuth();

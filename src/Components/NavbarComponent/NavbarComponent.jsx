@@ -4,8 +4,8 @@ import { FaBars } from "react-icons/fa";
 import LogoWithNoBackground from "../assets/logo/logo_no_background.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/NavbarComponent.css"; // Custom styles for additional styling
-import { useAuth } from "../contexts/AuthContext";
-import { logoutUser } from "../api/data/auth/auth";
+import { useAuth } from "../../contexts/AuthContext";
+import { logoutUser } from "../../api/data/auth/auth";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
