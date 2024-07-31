@@ -1,11 +1,11 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import RegisterComponent from "./Components/RegisterComponent";
-import LoginComponent from "./Components/LoginComponent";
-import VerificationComponent from "./Components/VerificationComponent";
+import RegisterComponent from "./Components/RegisterComponent/RegisterComponent";
+import LoginComponent from "./Components/LoginComponent/LoginComponent";
+import VerificationComponent from "./Components/VerificationComponent/VerificationComponent";
 import ProtectedRoute from "./ProtectedRoute";
-import AdminDashboard from "./Components/AdminDashboard";
-import UserDashboard from "./Components/UserDashboard";
+import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
+import UserDashboard from "./Components/UserDashboard/UserDashboard";
 import ArtistDashboard from "./Components/ArtistDashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useAuth } from "./contexts/AuthContext";

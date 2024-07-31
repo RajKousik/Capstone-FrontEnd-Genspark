@@ -11,7 +11,7 @@ import {
   FaChevronDown,
   FaChevronUp,
 } from "react-icons/fa";
-import "../css/MusicPlayer.css";
+import "./MusicPlayer.css";
 import { useMusic } from "../../contexts/MusicContext";
 import {
   IoIosArrowDropdownCircle,

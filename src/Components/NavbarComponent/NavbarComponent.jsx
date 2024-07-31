@@ -1,9 +1,9 @@
 import React from "react";
 import { Navbar, Nav, Container, Dropdown, Button } from "react-bootstrap";
 import { FaBars } from "react-icons/fa";
-import LogoWithNoBackground from "../assets/logo/logo_no_background.png";
+import LogoWithNoBackground from "../../assets/logo/logo_no_background.png";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../css/NavbarComponent.css"; // Custom styles for additional styling
+import "./NavbarComponent.css"; // Custom styles for additional styling
 import { useAuth } from "../../contexts/AuthContext";
 import { logoutUser } from "../../api/data/auth/auth";
 import { useNavigate } from "react-router-dom";

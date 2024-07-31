@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Form, Button, Card, Row, Col, Spinner } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import LoginPageImage from "./../assets/images/RegisterLoginImage.jpg"; // Ensure the image path is correct
+import LoginPageImage from "../../assets/images/RegisterLoginImage.jpg"; // Ensure the image path is correct
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axiosConfig";

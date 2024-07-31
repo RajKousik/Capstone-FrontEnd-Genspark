@@ -10,7 +10,7 @@ import {
   Form,
 } from "react-bootstrap";
 import { FaHeart, FaPlus, FaEllipsisV, FaArrowLeft } from "react-icons/fa";
-import "../css/PlaylistComponent.css";
+import "./PlaylistComponent.css";
 import {
   getPublicPlaylists,
   getUserPlaylists,
@@ -31,7 +31,7 @@ import { useAuth } from "../../contexts/AuthContext"; // Adjust the import path 
 import { uploadImage } from "../../cloudinary/cloudinary";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import SongsComponent from "./SongsComponent";
+import SongsComponent from "../SongsComponent/SongsComponent";
 import { useMusic } from "../../contexts/MusicContext";
 import { getSongByGenre, getSongById } from "../../api/data/songs/song";
 import { getArtistById } from "../../api/data/artists/artist";

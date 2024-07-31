@@ -1,10 +1,10 @@
 // src/components/UserDashboard.js
 import React, { useEffect, useState } from "react";
-import MusicPlayer from "./MusicPlayerComponent";
-import NavbarComponent from "./NavbarComponent";
-import SongsComponent from "./SongsComponent";
-import PlaylistComponent from "./PlaylistComponent";
-import "../css/UserDashboard.css";
+import MusicPlayer from "../MusicPlayerComponent/MusicPlayerComponent";
+import NavbarComponent from "../NavbarComponent/NavbarComponent";
+import SongsComponent from "../SongsComponent/SongsComponent";
+import PlaylistComponent from "../PlaylistComponent/PlaylistComponent";
+import "./UserDashboard.css";
 import { getAllSongs } from "../../api/data/songs/song";
 import { getArtistById } from "../../api/data/artists/artist";
 import { getAlbumById } from "../../api/data/albums/album";
@@ -16,8 +16,8 @@ import {
 } from "../../api/data/favorites/favorite";
 import { useAuth } from "../../contexts/AuthContext";
 import { useMusic } from "../../contexts/MusicContext";
-import SongsPage from "./SongsPage";
-import CheckoutComponent from "./CheckoutComponent";
+import SongsPage from "../SongsComponent/SongsPage";
+import CheckoutComponent from "../CheckoutComponent/CheckoutComponent";
 import ProfileComponent from "../ProfileComponent/ProfileComponent";
 import SongDetailComponent from "../SongComponent/SongComponent";
 
