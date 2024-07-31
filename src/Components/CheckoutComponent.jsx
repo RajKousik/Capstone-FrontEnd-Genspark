@@ -68,7 +68,7 @@ const CheckoutComponent = () => {
 
   return (
     <Container className="checkout-container">
-      {showNotification && endDate && <PremiumNotification />}
+      {showNotification && endDate && <PremiumNotification endDate={endDate} />}
       <Row className="justify-content-md-center">
         <Col md="auto" className="d-flex justify-content-center">
           <Card className="mb-4">

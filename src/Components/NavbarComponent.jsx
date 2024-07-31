@@ -32,7 +32,7 @@ const NavbarComponent = ({ activeLink, setActiveComponent }) => {
     <>
       <ToastContainer />
 
-      <Navbar expand="lg" className="custom-navbar">
+      <Navbar expand="md" className="custom-navbar">
         <Container>
           <Navbar.Toggle
             aria-controls="basic-navbar-nav"
@@ -44,9 +44,20 @@ const NavbarComponent = ({ activeLink, setActiveComponent }) => {
             src={LogoWithNoBackground}
             alt="Logo"
             className="logo"
-            style={{ marginRight: "10px", maxHeight: "40px" }}
+            style={{
+              marginRight: "10px",
+              maxHeight: "40px",
+              cursor: "pointer",
+            }}
+            onClick={() => setActiveComponent("songs")}
           />
-          <Navbar.Brand className="app-name">Vibe - Vault</Navbar.Brand>
+          <Navbar.Brand
+            className="app-name"
+            style={{ cursor: "pointer" }}
+            onClick={() => setActiveComponent("songs")}
+          >
+            Vibe - Vault
+          </Navbar.Brand>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto nav-links">
               <Nav.Link
