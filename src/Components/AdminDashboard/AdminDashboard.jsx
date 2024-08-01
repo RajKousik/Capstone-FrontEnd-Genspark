@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import NavbarComponent from "../NavbarComponent/NavbarComponent";
-import "./AdminDashboard.css";
 import { useAuth } from "../../contexts/AuthContext";
 import ProfileComponent from "../ProfileComponent/ProfileComponent";
 import { DiJavascript1 } from "react-icons/di";

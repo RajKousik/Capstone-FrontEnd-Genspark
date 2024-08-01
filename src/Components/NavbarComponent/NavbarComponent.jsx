@@ -23,7 +23,11 @@ const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
     setTimeout(async () => {
       const response = await logoutUser();
       logout();
-      navigate("/login");
+      if (userRole.toLowerCase() === "artist") {
+        navigate("/artist/login");
+      } else {
+        navigate("/login");
+      }
     }, 2000);
   };
 
@@ -166,6 +170,31 @@ const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
                     Playlists
                   </Nav.Link>
                 </>
+              ) : userRole === "artist" ? (
+                <>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("artist-profile")}
+                    style={{
+                      color:
+                        activeLink === "artist-profile" ? "#ffa500" : "inherit",
+                    }}
+                  >
+                    Profile
+                  </Nav.Link>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("manage-artist-songs")}
+                    style={{
+                      color:
+                        activeLink === "manage-artist-songs"
+                          ? "#ffa500"
+                          : "inherit",
+                    }}
+                  >
+                    Your Songs
+                  </Nav.Link>
+                </>
               ) : null}
             </Nav>
           </Navbar.Collapse>
@@ -190,7 +219,12 @@ const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
                     }}
                   />
                 </div>
-                <span className="user-name">{user?.username || "User"}</span>
+                {/* {user.username ? */}
+                <span span className="user-name">
+                  {user?.username || user?.name}
+                </span>
+
+                {/* // } */}
               </Dropdown.Toggle>
               <Dropdown.Menu
                 className="user-dropdown-menu"

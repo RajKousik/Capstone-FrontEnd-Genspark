@@ -84,7 +84,10 @@ function App() {
         path="/artist-dashboard"
         element={
           <ProtectedRoute roles={["artist"]}>
-            <ArtistDashboard />
+            <ArtistDashboard
+              activeLink={activeLink}
+              setActiveLink={setActiveLink}
+            />
           </ProtectedRoute>
         }
       />

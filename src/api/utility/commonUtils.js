@@ -43,6 +43,19 @@ const getEnrichedSongs = async (songs) => {
   return enrichedSongs;
 };
 
+const getEnrichedSong = async (song) => {
+  const artist = await getArtistById(song.artistId);
+  const album = await getAlbumById(song.albumId);
+  const enrichedSong = {
+    ...song,
+    artistName: artist.name,
+    albumName: album ? album.title : "Single",
+    releaseDate: formatDateTime(song.releaseDate),
+    id: song.songId,
+  };
+  return enrichedSong;
+};
+
 const getEnrichedPlaylists = async (playlists) => {
   const enrichedPlaylists = await Promise.all(
     playlists.map(async (playlist) => {
@@ -56,4 +69,9 @@ const getEnrichedPlaylists = async (playlists) => {
   return enrichedPlaylists;
 };
 
-export { formatDateTime, getEnrichedSongs, getEnrichedPlaylists };
+export {
+  formatDateTime,
+  getEnrichedSongs,
+  getEnrichedPlaylists,
+  getEnrichedSong,
+};
