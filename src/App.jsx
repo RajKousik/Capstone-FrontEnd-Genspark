@@ -6,10 +6,13 @@ import VerificationComponent from "./Components/VerificationComponent/Verificati
 import ProtectedRoute from "./ProtectedRoute";
 import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
 import UserDashboard from "./Components/UserDashboard/UserDashboard";
-import ArtistDashboard from "./Components/ArtistDashboard";
+import ArtistDashboard from "./Components/ArtistDashboard/ArtistDashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useAuth } from "./contexts/AuthContext";
 import { MusicProvider } from "./contexts/MusicContext";
+import SignInSide from "./Components/ArtistLoginPage/ArtistLogin";
+import ArtistProtectedRoute from "./routes/ArtistProtectedRoute";
+import RegisterPage from "./Components/ArtistRegisterPage/ArtistRegister";
 
 function App() {
   const { isAuthenticated, user } = useAuth();
@@ -40,6 +43,17 @@ function App() {
           )
         }
       />
+      <Route
+        path="/artist/login"
+        element={
+          !isAuthenticated ? (
+            <SignInSide />
+          ) : (
+            <Navigate to="/artist-dashboard" />
+          )
+        }
+      />
+      <Route path="/artist/register" element={<RegisterPage />} />
       <Route path="/register" element={<RegisterComponent />} />
       <Route path="/verify-code" element={<VerificationComponent />} />
       <Route

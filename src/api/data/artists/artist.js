@@ -82,7 +82,7 @@ const getSongsByArtistId = async (artistId) => {
     return response.data; // Return the list of songs for the artist
   } catch (error) {
     console.error("Error fetching songs for artist:", error);
-    throw error; // Rethrow the error for further handling
+    return null; // Rethrow the error for further handling
   }
 };
 

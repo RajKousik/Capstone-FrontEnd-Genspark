@@ -30,4 +30,47 @@ const verifyArtist = async (artistId) => {
   }
 };
 
-export { logoutUser, verifyArtist };
+// Function to log in an artist
+const artistLogin = async (email, password) => {
+  try {
+    const response = await axiosInstance.post(
+      "/auth/artist/login",
+      {
+        email,
+        password,
+      },
+      {
+        withCredentials: true, // Include credentials in the request
+      }
+    );
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error("Error logging in artist:", error);
+    throw error; // Rethrow the error for handling in the calling function
+  }
+};
+
+// Function to register an artist
+const artistRegister = async ({ name, email, password, bio, imageUrl }) => {
+  try {
+    const response = await axiosInstance.post(
+      "/auth/artist/register",
+      {
+        name,
+        email,
+        imageUrl,
+        password,
+        bio,
+      },
+      {
+        withCredentials: true, // Include credentials in the request
+      }
+    );
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error("Error registering artist:", error);
+    throw error; // Rethrow the error for handling in the calling function
+  }
+};
+
+export { logoutUser, verifyArtist, artistLogin, artistRegister };

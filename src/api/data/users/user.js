@@ -84,6 +84,19 @@ const deleteUserById = async (userId) => {
   }
 };
 
+// Function to delete user by ID
+const getPremiumUsers = async (userId) => {
+  try {
+    const response = await axiosInstance.get(`/users/premium-users`, {
+      withCredentials: true,
+    });
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error("Error retrieving user:", error);
+    throw error; // Rethrow the error for further handling
+  }
+};
+
 export {
   getUserById,
   updateUserById,
@@ -91,4 +104,5 @@ export {
   getPremiumUserById,
   getAllUsers,
   deleteUserById, // Export the delete function
+  getPremiumUsers,
 };

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { Form, Button, Card, Row, Col, Spinner } from "react-bootstrap";
-import axiosInstance from "../api/axiosConfig";
+import axiosInstance from "../../api/axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 const ArtistDashboard = () => {
@@ -19,7 +19,7 @@ const ArtistDashboard = () => {
     );
 
     logout();
-    navigate("/login");
+    navigate("/artist/login");
   };
   return (
     <>

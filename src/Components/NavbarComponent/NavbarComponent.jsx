@@ -165,18 +165,6 @@ const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
                   >
                     Playlists
                   </Nav.Link>
-                  <Nav.Link
-                    className="navbar-link-item"
-                    onClick={() => setActiveComponent("manage-premium-users")}
-                    style={{
-                      color:
-                        activeLink === "manage-premium-users"
-                          ? "#ffa500"
-                          : "inherit",
-                    }}
-                  >
-                    Premium Users
-                  </Nav.Link>
                 </>
               ) : null}
             </Nav>

@@ -1,19 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Dialog } from "primereact/dialog";
+import { Tooltip } from "primereact/tooltip";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "./ManageSongsComponent.css";
 import { getAllSongs, deleteSongById } from "../../api/data/songs/song";
+import { saveAs } from "file-saver";
+import * as XLSX from "xlsx";
 import { Tag } from "primereact/tag";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import {
   formatDateTime,
   getEnrichedSongs,
 } from "../../api/utility/commonUtils";
+import { FileX } from "react-bootstrap-icons";
 
 function ManageSongsComponent() {
   const [songs, setSongs] = useState([]);
@@ -22,6 +28,7 @@ function ManageSongsComponent() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isDeleteDialogVisible, setIsDeleteDialogVisible] = useState(false);
+  const dt = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +45,55 @@ function ManageSongsComponent() {
     };
     fetchData();
   }, []);
+
+  const cols = [
+    { field: "songId", header: "Song Id" },
+    { field: "title", header: "Title" },
+    { field: "artistName", header: "Artist" },
+    { field: "genre", header: "Genre" },
+    { field: "duration", header: "Duration" },
+  ];
+
+  const exportColumns = cols.map((col) => ({
+    title: col.header,
+    dataKey: col.field,
+  }));
+
+  const exportCSV = (selectionOnly) => {
+    dt.current.exportCSV({ selectionOnly });
+  };
+
+  const exportPdf = () => {
+    const doc = new jsPDF();
+
+    doc.autoTable(exportColumns, songs);
+    doc.save("songs.pdf");
+  };
+
+  const exportExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(songs);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Songs");
+
+    // Generate buffer
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    saveAsExcelFile(excelBuffer, "songs");
+  };
+
+  const saveAsExcelFile = (buffer, fileName) => {
+    const EXCEL_TYPE =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const EXCEL_EXTENSION = ".xlsx";
+    const data = new Blob([buffer], { type: EXCEL_TYPE });
+
+    saveAs(
+      data,
+      `${fileName}_export_${new Date().getTime()}${EXCEL_EXTENSION}`
+    );
+  };
 
   const confirmDeleteSong = () => {
     if (selectedSong) {
@@ -77,7 +133,36 @@ function ManageSongsComponent() {
 
   const header = (
     <div className="table-header">
-      <h2 className="p-m-0">Songs List</h2>
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: "2px" }}>
+        <Tooltip target=".export-buttons>button" position="bottom" />
+        {/* <h2 className="p-m-0">Songs List</h2> */}
+        <Button
+          type="button"
+          title="Download as CSV"
+          icon="pi pi-file"
+          rounded
+          onClick={() => exportCSV(false)}
+          data-pr-tooltip="CSV"
+        />
+        <Button
+          type="button"
+          icon="pi pi-file-excel"
+          title="Download as XLS"
+          severity="success"
+          rounded
+          onClick={exportExcel}
+          data-pr-tooltip="XLS"
+        />
+        <Button
+          type="button"
+          icon="pi pi-file-pdf"
+          title="Download as PDF"
+          severity="warning"
+          rounded
+          onClick={exportPdf}
+          data-pr-tooltip="PDF"
+        />
+      </div>
       <div
         className="group"
         style={{ display: "flex", justifyContent: "space-between" }}
@@ -107,6 +192,7 @@ function ManageSongsComponent() {
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       <DataTable
+        ref={dt}
         value={songs}
         paginator
         rows={2}

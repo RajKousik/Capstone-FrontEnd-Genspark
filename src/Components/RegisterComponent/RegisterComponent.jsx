@@ -277,6 +277,12 @@ const RegisterComponent = () => {
                   <small>
                     Already signed up? <Link to="/login">Log in here</Link>
                   </small>
+                  <br />
+                  <small>
+                    <Link to="/artist/register">
+                      Get Register yourself as artist
+                    </Link>
+                  </small>
                 </div>
               </Card.Body>
             </Col>
