@@ -121,6 +121,11 @@
   text-align: left; /* Align text to the left */
 }
 
+#admin-info-card,
+#artist-info-card {
+  max-width: 400px;
+}
+
 .info-card h2 {
   margin-bottom: 10px;
   display: flex;

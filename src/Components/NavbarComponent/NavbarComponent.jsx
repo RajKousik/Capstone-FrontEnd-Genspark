@@ -194,6 +194,18 @@ const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
                   >
                     Your Songs
                   </Nav.Link>
+                  <Nav.Link
+                    className="navbar-link-item"
+                    onClick={() => setActiveComponent("manage-artist-albums")}
+                    style={{
+                      color:
+                        activeLink === "manage-artist-albums"
+                          ? "#ffa500"
+                          : "inherit",
+                    }}
+                  >
+                    Your Albums
+                  </Nav.Link>
                 </>
               ) : null}
             </Nav>

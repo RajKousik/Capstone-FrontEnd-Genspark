@@ -5,6 +5,8 @@ import axiosInstance from "../../api/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import NavbarComponent from "../NavbarComponent/NavbarComponent";
 import ManageArtistSong from "../ManageArtistSong/ManageArtistSong";
+import ManageAlbumComponent from "../ManageAlbumComponent/ManageAlbumComponent";
+import ArtistProfileComponent from "../ArtistProfileComponent/ArtistProfileComponent";
 
 const ArtistDashboard = ({ activeLink, setActiveLink }) => {
   const { user } = useAuth();
@@ -19,8 +21,14 @@ const ArtistDashboard = ({ activeLink, setActiveLink }) => {
         setActiveComponent={setActiveLink}
       />
       <div className="content">
-        {activeLink === "artist-profile" && <h1>Hello Artist</h1>}
+        {activeLink === "artist-profile" && (
+          <ArtistProfileComponent
+            activeLink={activeLink}
+            setActiveComponent={setActiveLink}
+          />
+        )}
         {activeLink === "manage-artist-songs" && <ManageArtistSong />}
+        {activeLink === "manage-artist-albums" && <ManageAlbumComponent />}
       </div>
     </div>
   );

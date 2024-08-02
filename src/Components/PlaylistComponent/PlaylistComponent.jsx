@@ -431,7 +431,12 @@ const PlaylistComponent = () => {
               justifyContent: "flex-start",
             }}
           >
-            {publicPlaylists.length === 0 ? (
+            {publicPlaylists.filter(
+              (playlist) =>
+                !myPlaylists.some(
+                  (myPlaylist) => myPlaylist.playlistId === playlist.playlistId
+                )
+            ).length === 0 ? (
               <Col className="text-center">No public playlists available</Col>
             ) : (
               publicPlaylists

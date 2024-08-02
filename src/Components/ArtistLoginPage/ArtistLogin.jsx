@@ -174,6 +174,10 @@ export default function SignInSide() {
                   <Link href="/artist/register" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
+                  <br />
+                  <Link href="/login" variant="body2">
+                    {"Wanna enjoy some music? Login Now"}
+                  </Link>
                 </Grid>
               </Grid>
             </Box>

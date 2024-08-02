@@ -14,6 +14,13 @@ const getSongById = async (songId) => {
   return response.data;
 };
 
+const getSongsByAlbumId = async (albumId) => {
+  const response = await axiosInstance.get(`/songs/album/${albumId}`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
 const getSongByGenre = async (genre) => {
   const response = await axiosInstance.get(`/songs/genre?genre=${genre}`, {
     withCredentials: true,
@@ -81,4 +88,5 @@ export {
   createSong,
   updateSong,
   deleteSongsRange,
+  getSongsByAlbumId,
 };

@@ -26,7 +26,7 @@ import GenreTypes from "../../api/utility/genreTypes";
 import { Dropdown } from "primereact/dropdown";
 import { getAlbumByArtistId } from "../../api/data/albums/album";
 
-export default function SongsDemo() {
+export default function ManageArtistSong() {
   const { user } = useAuth(); // Assuming useAuth provides user details including artistId
   let emptySong = {
     songId: null,
@@ -71,14 +71,16 @@ export default function SongsDemo() {
   const fetchAlbums = async (artistId) => {
     try {
       const response = await getAlbumByArtistId(artistId);
-      const options = [
-        ...response.map((album) => ({
-          label: album.title,
-          value: album.albumId,
-        })),
-        // Add the "None" option
-      ];
-
+      let options = [];
+      if (response) {
+        options = [
+          ...response.map((album) => ({
+            label: album.title,
+            value: album.albumId,
+          })),
+          // Add the "None" option
+        ];
+      }
       options.push({ label: "None", value: -1 });
       setAlbumOptions(options);
     } catch (error) {
@@ -97,8 +99,7 @@ export default function SongsDemo() {
     async function fetchSongs() {
       const response = await getSongsByArtistId(user.artistId);
       const enrichedSongs = await getEnrichedSongs(response);
-
-      setSongs(enrichedSongs);
+      if (enrichedSongs) setSongs(enrichedSongs);
     }
     fetchSongs();
   }, [user.artistId]);
@@ -146,7 +147,7 @@ export default function SongsDemo() {
   const deleteSong = async () => {
     try {
       let _songs = songs.filter((val) => val.id !== song.songId);
-
+      const response = await deleteSongById(song.songId);
       setSongs(_songs);
       setDeleteSongDialog(false);
       setSong(emptySong);
@@ -186,6 +187,8 @@ export default function SongsDemo() {
       console.log("selectedSongs :>> ", selectedSongIds);
       let _songs = songs.filter((val) => !selectedSongs.includes(val));
       setSongs(_songs);
+
+      const response = await deleteSongsRange(selectedSongIds);
 
       toast.success("Songs Deleted Successfully", {
         position: "top-right",
@@ -482,7 +485,8 @@ export default function SongsDemo() {
       artistId: addSong.artistId,
     };
 
-    let _songs = [...songs]; // Copy existing songs
+    let _songs = [];
+    if (songs) _songs = [...songs]; // Copy existing songs
 
     try {
       const response = await createSong(song);

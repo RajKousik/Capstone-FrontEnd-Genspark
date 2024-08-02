@@ -12,7 +12,7 @@
   position: sticky;
   top: 56px;
   right: 0;
-  width: 100%;
+  width: 100% !important;
   background-color: #f0f0f0;
   padding: 10px;
   z-index: 100;

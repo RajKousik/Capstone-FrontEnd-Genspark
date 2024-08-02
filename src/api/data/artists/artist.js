@@ -68,7 +68,7 @@ const changeArtistPassword = async (artistId, passwordData) => {
     );
     return response.data; // Return the response data
   } catch (error) {
-    console.error("Error changing artist password:", error);
+    // console.error("Error changing artist password:", error);
     throw error; // Rethrow the error for further handling
   }
 };

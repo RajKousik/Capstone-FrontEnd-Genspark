@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import NavbarComponent from "../NavbarComponent/NavbarComponent";
 import { useAuth } from "../../contexts/AuthContext";
-import ProfileComponent from "../ProfileComponent/ProfileComponent";
-import { DiJavascript1 } from "react-icons/di";
 import ManageUsersComponent from "../ManageUsersComponent/ManageUsersComponent";
 import ManageArtistsComponent from "../ManageArtistComponent/ManageArtistComponent";
 import ManageSongsComponent from "../ManageSongsComponent/ManageSongsComponent";
 import ManagePlaylistsComponent from "../ManagePlaylistsComponent/ManagePlaylistsComponent";
+import AdminProfileComponent from "../AdminProfileComponent/AdminProfileComponent";
 
 const AdminDashboard = ({ activeLink, setActiveLink }) => {
   const { user } = useAuth();
@@ -22,10 +21,10 @@ const AdminDashboard = ({ activeLink, setActiveLink }) => {
       />
       <div className="content">
         {activeLink === "admin-profile" && (
-          // <NavbarComponent
-
-          // />
-          <h1>Hello</h1>
+          <AdminProfileComponent
+            activeLink={activeLink}
+            setActiveComponent={setActiveLink}
+          />
         )}
         {activeLink === "manage-users" && <ManageUsersComponent />}
         {activeLink === "manage-artists" && <ManageArtistsComponent />}
