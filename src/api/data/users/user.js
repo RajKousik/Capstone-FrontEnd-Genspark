@@ -93,7 +93,7 @@ const getPremiumUsers = async (userId) => {
     return response.data; // Return the response data
   } catch (error) {
     console.error("Error retrieving user:", error);
-    throw error; // Rethrow the error for further handling
+    return null; // Rethrow the error for further handling
   }
 };
 

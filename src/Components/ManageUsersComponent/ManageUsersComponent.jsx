@@ -56,9 +56,12 @@ function ManageUsersComponent() {
 
         const usersWithPremium = allUsers.map((user) => {
           // Find the premium user information for the current user
-          const premiumUserData = premiumUsers.find(
-            (pu) => pu.userId === user.userId
-          );
+          var premiumUserData;
+          if (premiumUsers) {
+            premiumUserData = premiumUsers.find(
+              (pu) => pu.userId === user.userId
+            );
+          }
 
           // Add the premium user data if available, or an empty array if not
           return {

@@ -30,7 +30,6 @@ const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
       }
     }, 2000);
   };
-
   return (
     <>
       <ToastContainer />
@@ -64,7 +63,7 @@ const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
             <Nav className="me-auto nav-links">
               {/* Conditionally render nav links based on user role */}
               {userRole.toLowerCase() === "premiumuser" ||
-              userRole === "normaluser" ? (
+              userRole.toLowerCase() === "normaluser" ? (
                 <>
                   <Nav.Link
                     className="navbar-link-item"
