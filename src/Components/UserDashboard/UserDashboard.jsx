@@ -20,6 +20,7 @@ import SongsPage from "../SongsComponent/SongsPage";
 import CheckoutComponent from "../CheckoutComponent/CheckoutComponent";
 import ProfileComponent from "../ProfileComponent/ProfileComponent";
 import SongDetailComponent from "../SongComponent/SongComponent";
+import ArtistComponent from "../ArtistComponent/ArtistComponent";
 
 const UserDashboard = ({ activeLink, setActiveLink }) => {
   const { user } = useAuth();
@@ -104,6 +105,7 @@ const UserDashboard = ({ activeLink, setActiveLink }) => {
           />
         )}
         {activeLink === "playlists" && <PlaylistComponent />}
+        {activeLink === "artists" && <ArtistComponent />}
         {activeLink === "explore-premium" && <CheckoutComponent />}
         {activeLink === "song" && <SongDetailComponent song={selectedSong} />}
         {/* Add more components based on activeLink */}
