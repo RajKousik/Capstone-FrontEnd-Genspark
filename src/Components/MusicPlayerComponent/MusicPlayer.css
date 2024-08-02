@@ -12,6 +12,20 @@
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
 }
 
+.control-icon.shuffle-icon {
+  font-size: 25px;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.control-icon.shuffle-button.active {
+  color: #ffa500 !important; /* Change to your desired active color */
+}
+
+.control-icon.shuffle-button.inactive {
+  color: #ccc; /* Change to your desired inactive color */
+}
+
 .music-player.hidden {
   display: none;
 }

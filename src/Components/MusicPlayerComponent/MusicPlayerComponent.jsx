@@ -10,6 +10,7 @@ import {
   FaHeart,
   FaChevronDown,
   FaChevronUp,
+  FaRandom,
 } from "react-icons/fa";
 import "./MusicPlayer.css";
 import { useMusic } from "../../contexts/MusicContext";
@@ -40,6 +41,7 @@ const MusicPlayer = () => {
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(5);
   const [isLiked, setIsLiked] = useState(false);
+  const [isShuffling, setIsShuffling] = useState(false); // State for shuffling
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   // const [isPlayerVisible, setIsPlayerVisible] = useState(true);
@@ -129,9 +131,32 @@ const MusicPlayer = () => {
   };
 
   const handleNext = () => {
-    const currentIndex = songs.findIndex((song) => song.id === currentSong.id);
-    const nextIndex = (currentIndex + 1) % songs.length;
-    setCurrentSong(songs[nextIndex]);
+    if (isShuffling) {
+      const currentIndex = songs.findIndex(
+        (song) => song.id === currentSong.id
+      );
+      const previousIndex = (currentIndex - 1 + songs.length) % songs.length;
+      const nextIndex = (currentIndex + 1) % songs.length;
+
+      let availableIndices = songs
+        .map((_, index) => index)
+        .filter(
+          (index) =>
+            index !== currentIndex &&
+            index !== previousIndex &&
+            index !== nextIndex
+        );
+
+      const shuffledIndex =
+        availableIndices[Math.floor(Math.random() * availableIndices.length)];
+      setCurrentSong(songs[shuffledIndex]);
+    } else {
+      const currentIndex = songs.findIndex(
+        (song) => song.id === currentSong.id
+      );
+      const nextIndex = (currentIndex + 1) % songs.length;
+      setCurrentSong(songs[nextIndex]);
+    }
   };
 
   return (
@@ -219,6 +244,12 @@ const MusicPlayer = () => {
                     : ""
                 }`}
                 onClick={handleNext}
+              />
+              <FaRandom
+                className={`control-icon shuffle-button ${
+                  isShuffling ? "active" : ""
+                }`}
+                onClick={() => setIsShuffling(!isShuffling)}
               />
             </div>
 

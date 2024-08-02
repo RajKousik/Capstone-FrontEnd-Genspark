@@ -44,7 +44,7 @@ const SongsComponent = ({ setActiveLink, setSelectedSong }) => {
 
   const handleRowClick = (song) => {
     // Only update song but don't toggle play/pause
-    setCurrentSong(song);
+    // setCurrentSong(song);
   };
 
   const toggleSearch = () => {
