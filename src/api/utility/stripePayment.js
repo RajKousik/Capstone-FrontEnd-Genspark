@@ -5,7 +5,8 @@ const createCheckoutSession = async (
   amount,
   userId,
   durationInDays = 2,
-  currency = "usd"
+  currency = "usd",
+  email
 ) => {
   try {
     const response = await axiosInstance.post(
@@ -15,6 +16,7 @@ const createCheckoutSession = async (
         currency,
         userId,
         durationInDays,
+        email,
       },
       {
         headers: {

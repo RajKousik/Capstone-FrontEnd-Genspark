@@ -50,7 +50,8 @@ const CheckoutComponent = () => {
       amount * 100,
       user.userId,
       durationInDays,
-      "usd"
+      "usd",
+      user.email
     );
 
     // Redirect to Stripe Checkout
