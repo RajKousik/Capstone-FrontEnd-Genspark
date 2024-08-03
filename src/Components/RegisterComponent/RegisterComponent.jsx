@@ -119,7 +119,7 @@ const RegisterComponent = () => {
       <div
         className="d-flex align-items-center justify-content-center vh-100"
         style={{
-          backgroundColor: "#f8f9fa",
+          backgroundColor: "#b7d1d0",
           overflowY: "auto",
           padding: "1rem",
         }}
@@ -280,7 +280,7 @@ const RegisterComponent = () => {
                   <br />
                   <small>
                     <Link to="/artist/register">
-                      Get Register yourself as artist
+                      Get Register yourself as an artist
                     </Link>
                   </small>
                 </div>

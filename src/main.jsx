@@ -9,13 +9,11 @@ import { MusicProvider } from "./contexts/MusicContext.jsx";
 import { PrimeReactProvider, PrimeReactContext } from "primereact/api";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <AuthProvider>
-      <PrimeReactProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </PrimeReactProvider>
-    </AuthProvider>
-  </React.StrictMode>
+  <AuthProvider>
+    <PrimeReactProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PrimeReactProvider>
+  </AuthProvider>
 );

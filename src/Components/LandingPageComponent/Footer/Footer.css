@@ -1,0 +1,42 @@
+.footer {
+  background-color: #081730;
+  height: 45rem;
+  padding-top: 18rem;
+  margin-top: -10rem;
+  position: relative;
+}
+
+.social-icon {
+  border: 2px solid #ffa500;
+  border-radius: 50%;
+  padding: 10px;
+  margin-right: 1rem;
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
+  background-color: #ffa500;
+}
+
+.h-450 {
+  height: 450px;
+}
+
+.pt-180 {
+  padding-top: 180px;
+}
+
+.mt-negative-100 {
+  margin-top: -100px;
+}
+
+.z-negative-1 {
+  z-index: -1;
+}
+
+.text-muted {
+  color: gray;
+  padding: 0 15rem;
+  text-align: center;
+  margin-top: 4rem;
+}

@@ -13,6 +13,7 @@ import { MusicProvider } from "./contexts/MusicContext";
 import SignInSide from "./Components/ArtistLoginPage/ArtistLogin";
 import ArtistProtectedRoute from "./routes/ArtistProtectedRoute";
 import RegisterPage from "./Components/ArtistRegisterPage/ArtistRegister";
+import { LandingPageComponent } from "./Components/LandingPageComponent/LandingPageComponent";
 
 function App() {
   const { isAuthenticated, user } = useAuth();
@@ -43,6 +44,7 @@ function App() {
           )
         }
       />
+      <Route path="/" element={<LandingPageComponent />} />
       <Route
         path="/artist/login"
         element={

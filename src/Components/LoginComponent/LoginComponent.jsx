@@ -104,7 +104,7 @@ const LoginComponent = () => {
       <div
         className="d-flex align-items-center justify-content-center"
         style={{
-          backgroundColor: "#f8f9fa",
+          backgroundColor: "#b7d1d0",
           minHeight: "100vh",
           padding: "1rem",
         }}
@@ -114,6 +114,8 @@ const LoginComponent = () => {
           style={{
             maxWidth: "900px",
             borderRadius: "15px",
+            boxShadow:
+              "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;",
           }}
         >
           <Row className="g-0">
