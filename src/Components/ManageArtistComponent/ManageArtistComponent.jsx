@@ -175,9 +175,8 @@ function ManageArtistsComponent() {
 
   const header = (
     <div className="table-header">
-      <div style={{ display: "flex", justifyContent: "flex-end", gap: "2px" }}>
+      {/* <div style={{ display: "flex", justifyContent: "flex-end", gap: "2px" }}>
         <Tooltip target=".export-buttons>button" position="bottom" />
-        {/* <h2 className="p-m-0">Songs List</h2> */}
         <Button
           type="button"
           title="Download as CSV"
@@ -204,7 +203,7 @@ function ManageArtistsComponent() {
           onClick={exportPdf}
           data-pr-tooltip="PDF"
         />
-      </div>
+      </div> */}
       <div
         className="group"
         style={{ display: "flex", justifyContent: "space-between" }}
@@ -219,14 +218,45 @@ function ManageArtistsComponent() {
             className="global-filter-input"
           />
         </span>
-        <Button
-          icon="pi pi-minus"
-          className="ms-2 color-bg border border-none rounded"
-          style={{ backgroundColor: "red" }}
-          label="Delete Artist"
-          disabled={!selectedArtist}
-          onClick={() => setIsDeleteDialogVisible(true)}
-        />
+        <div>
+          <Button
+            type="button"
+            title="Download as CSV"
+            icon="pi pi-file"
+            rounded
+            className="me-2"
+            onClick={() => exportCSV(false)}
+            data-pr-tooltip="CSV"
+          />
+          <Button
+            type="button"
+            icon="pi pi-file-excel"
+            title="Download as XLS"
+            severity="success"
+            rounded
+            onClick={exportExcel}
+            className="me-2"
+            data-pr-tooltip="XLS"
+          />
+          <Button
+            type="button"
+            icon="pi pi-file-pdf"
+            title="Download as PDF"
+            severity="warning"
+            rounded
+            className="me-2"
+            onClick={exportPdf}
+            data-pr-tooltip="PDF"
+          />
+          <Button
+            icon="pi pi-minus"
+            className="color-bg border border-none rounded"
+            style={{ backgroundColor: "red" }}
+            label="Delete Artist"
+            disabled={!selectedArtist}
+            onClick={() => setIsDeleteDialogVisible(true)}
+          />
+        </div>
       </div>
     </div>
   );

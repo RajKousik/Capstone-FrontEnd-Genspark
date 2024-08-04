@@ -23,11 +23,11 @@ const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
       : user.imageUrl;
 
   const handleLogout = async () => {
-    toast.loading("Logging out", {
-      position: "top-right",
-      autoClose: 100,
-      pauseOnHover: false,
-    });
+    // toast.loading("Logging out", {
+    //   position: "top-right",
+    //   autoClose: 100,
+    //   pauseOnHover: false,
+    // });
     setTimeout(async () => {
       const response = await logoutUser();
       logout();

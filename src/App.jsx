@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import RegisterComponent from "./Components/RegisterComponent/RegisterComponent";
 import LoginComponent from "./Components/LoginComponent/LoginComponent";
+import LogoutComponent from "./Components/LogoutComponent/LogoutComponent";
 import VerificationComponent from "./Components/VerificationComponent/VerificationComponent";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
@@ -93,6 +94,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/logout" element={<LogoutComponent />} />
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   );
