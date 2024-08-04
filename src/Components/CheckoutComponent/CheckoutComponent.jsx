@@ -33,7 +33,7 @@ const CheckoutComponent = () => {
       getPremiumUserById(user.userId)
         .then((response) => {
           setEndDate(response.endDate); // Assuming response contains endDate
-          setShowNotification(true);
+          // setShowNotification(true);
         })
         .catch((error) => {
           console.error("Error fetching premium user data:", error);
@@ -68,11 +68,11 @@ const CheckoutComponent = () => {
 
   return (
     <Container className="checkout-container">
-      {showNotification &&
-        endDate &&
-        user.role.toLowerCase() == "premiumuser" && (
-          <PremiumNotification endDate={endDate} />
-        )}
+      {user.role.toLowerCase() == "premiumuser" ? (
+        <PremiumNotification endDate={endDate} isPremium={true} />
+      ) : (
+        <PremiumNotification endDate={endDate} isPremium={false} />
+      )}
       <Row className="justify-content-md-center">
         <Col md="auto" className="d-flex justify-content-center">
           <Card className="mb-4">

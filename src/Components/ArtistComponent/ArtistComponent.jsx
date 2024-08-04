@@ -100,6 +100,7 @@ const ArtistComponent = () => {
             {artists.length === 0 ? (
               <Col className="text-center">No Artists available</Col>
             ) : (
+              artists.length > 0 &&
               artists.map((artist) => (
                 <Col
                   key={artists.artistsId}

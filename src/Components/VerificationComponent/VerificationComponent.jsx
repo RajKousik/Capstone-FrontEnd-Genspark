@@ -118,7 +118,7 @@ const VerificationComponent = () => {
       <ToastContainer />
       <div
         className="d-flex align-items-center justify-content-center vh-100"
-        style={{ backgroundColor: "#f8f9fa" }}
+        style={{ backgroundColor: "#b7d1d0" }}
       >
         <Card
           className="shadow-sm w-100"

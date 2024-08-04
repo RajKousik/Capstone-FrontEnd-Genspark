@@ -14,6 +14,11 @@ const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
+  const profileImage =
+    userRole.toLowerCase() !== "artist"
+      ? "https://res.cloudinary.com/deqk5oxse/image/upload/v1722757749/profile_tmhwcg.jpg"
+      : user.ImageUrl;
+
   const handleLogout = async () => {
     toast.loading("Logging out", {
       position: "top-right",
@@ -220,7 +225,7 @@ const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
               >
                 <div className="user-avatar">
                   <img
-                    src="https://res.cloudinary.com/deqk5oxse/image/upload/v1721715723/samples/smile.jpg"
+                    src="https://res.cloudinary.com/deqk5oxse/image/upload/v1722757749/profile_tmhwcg.jpg"
                     alt="User Avatar"
                     className="rounded-circle"
                     style={{
