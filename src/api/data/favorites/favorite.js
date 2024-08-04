@@ -2,13 +2,18 @@ import axiosInstance from "../../axiosConfig";
 
 // Function to get favorite songs by user ID
 const getFavoritesByUserId = async (userId) => {
-  const response = await axiosInstance.get(
-    `/favorites/songs?userId=${userId}`,
-    {
-      withCredentials: true,
-    }
-  );
-  return response.data;
+  try {
+    const response = await axiosInstance.get(
+      `/favorites/songs?userId=${userId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };
 
 // Function to add a favorite song for a user

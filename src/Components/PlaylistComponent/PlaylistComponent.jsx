@@ -131,13 +131,17 @@ const PlaylistComponent = () => {
     fetchPlaylists();
   }, [user.userId]);
 
-  const handleViewPlaylistClick = async (playlist, userPlaylist) => {
+  const handleViewPlaylistClick = async (playlist, userPlaylist, isPublic) => {
     setSelectedPlaylist(playlist);
     // here get playlist songs as of now some dummy data
     var result;
     if (userPlaylist) {
       result = await getSongsByPlaylistId(playlist.playlistId);
       setIsUserPlaylist(true);
+    } else if (isPublic) {
+      console.log("hello :>> ", playlist, userPlaylist, isPublic);
+      result = await getSongsByPlaylistId(playlist.playlistId);
+      setIsUserPlaylist(false);
     } else {
       result = await getSongByGenre(playlist.name);
       setIsUserPlaylist(false);
@@ -425,7 +429,7 @@ const PlaylistComponent = () => {
                             borderColor: "#ffa500",
                           }}
                           onClick={() =>
-                            handleViewPlaylistClick(playlist, true)
+                            handleViewPlaylistClick(playlist, true, false)
                           }
                         >
                           View Playlist
@@ -506,7 +510,7 @@ const PlaylistComponent = () => {
                               borderColor: "#ffa500",
                             }}
                             onClick={() =>
-                              handleViewPlaylistClick(playlist, false)
+                              handleViewPlaylistClick(playlist, false, true)
                             }
                           >
                             View Playlist
@@ -565,7 +569,7 @@ const PlaylistComponent = () => {
                             borderColor: "#ffa500",
                           }}
                           onClick={() =>
-                            handleViewPlaylistClick(playlist, false)
+                            handleViewPlaylistClick(playlist, false, false)
                           }
                         >
                           View Playlist

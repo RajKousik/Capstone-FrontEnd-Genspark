@@ -189,7 +189,11 @@ const SongDetailComponent = ({ song }) => {
                     className="play-pause-btn"
                     onClick={() => handlePlayPause(song)}
                   >
-                    {isPlaying ? <FaPause /> : <FaPlay />}
+                    {isPlaying && currentSong.songId === song.songId ? (
+                      <FaPause />
+                    ) : (
+                      <FaPlay />
+                    )}
                   </Button>
                 </div>
               </Card.Body>

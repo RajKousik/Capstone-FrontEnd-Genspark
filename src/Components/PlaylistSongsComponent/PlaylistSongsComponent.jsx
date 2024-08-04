@@ -98,6 +98,7 @@ const PlaylistSongsComponent = ({
       autoClose: 2500,
       pauseOnHover: false,
     });
+    setShowAddModal(false);
     if (selectedSong && playlist) {
       try {
         await addSongToPlaylist(playlist.playlistId, selectedSong.songId);
