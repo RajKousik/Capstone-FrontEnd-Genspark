@@ -67,6 +67,8 @@ export default function ManageArtistSong() {
 
   const [albumOptions, setAlbumOptions] = useState([]);
 
+  const [isDataFetched, setIsDataFetched] = useState(false);
+
   // Fetch albums by artistId and update the state
   const fetchAlbums = async (artistId) => {
     try {
@@ -97,12 +99,20 @@ export default function ManageArtistSong() {
 
   useEffect(() => {
     async function fetchSongs() {
-      const response = await getSongsByArtistId(user.artistId);
-      const enrichedSongs = await getEnrichedSongs(response);
-      if (enrichedSongs) setSongs(enrichedSongs);
+      try {
+        const response = await getSongsByArtistId(user.artistId);
+        if (response.length > 0) {
+          const enrichedSongs = await getEnrichedSongs(response);
+          if (enrichedSongs) setSongs(enrichedSongs);
+          console.log("hello :>> ");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      setIsDataFetched(true);
     }
     fetchSongs();
-  }, [user.artistId]);
+  }, []);
 
   const openNew = () => {
     setAddSong(emptySong);
@@ -237,10 +247,6 @@ export default function ManageArtistSong() {
     if (file) {
       const audio = new Audio(URL.createObjectURL(file));
       audio.onloadedmetadata = () => {
-        console.log(
-          " Math.floor(audio.duration):>> ",
-          Math.floor(audio.duration)
-        );
         setAudioDuration(Math.floor(audio.duration));
       };
 
@@ -390,8 +396,13 @@ export default function ManageArtistSong() {
   const updateSongDetails = async () => {
     setSubmitted(true);
 
-    console.log("editSong :>> ", editSong);
-    if (!editImageUrl || !editAudioUrl) {
+    console.log(editSong);
+
+    // Check for required fields
+    const hasEditSongFields = editSong.imageUrl && editSong.url;
+    const hasEditImageAudioFields = editImageUrl && editAudioUrl;
+
+    if (!hasEditSongFields && !hasEditImageAudioFields) {
       console.error("Image and audio files are required");
       toast.error("Image and audio files are required", {
         position: "top-right",
@@ -401,7 +412,7 @@ export default function ManageArtistSong() {
       return;
     }
 
-    if (!editSong.title || !editSong.albumId || !editSong.genre) {
+    if (!editSong.title || !editSong.genre) {
       toast.error("Title, Album and Genre are required", {
         position: "top-right",
         autoClose: 2000,
@@ -520,6 +531,7 @@ export default function ManageArtistSong() {
         label="Cancel"
         icon="pi pi-times"
         outlined
+        className="me-2"
         onClick={hideAddDialog}
       />
       <Button label="Save" icon="pi pi-check" onClick={addNewSong} />
@@ -532,6 +544,7 @@ export default function ManageArtistSong() {
         label="Cancel"
         icon="pi pi-times"
         outlined
+        className="me-2"
         onClick={hideEditDialog}
       />
       <Button label="Save" icon="pi pi-check" onClick={updateSongDetails} />
@@ -544,6 +557,7 @@ export default function ManageArtistSong() {
         label="No"
         icon="pi pi-times"
         outlined
+        className="me-2"
         onClick={hideDeleteSongDialog}
       />
       <Button
@@ -560,6 +574,7 @@ export default function ManageArtistSong() {
         label="No"
         icon="pi pi-times"
         outlined
+        className="me-2"
         onClick={hideDeleteSongsDialog}
       />
       <Button
@@ -576,6 +591,20 @@ export default function ManageArtistSong() {
     value: genre.name,
   }));
 
+  if (!isDataFetched) {
+    return (
+      <div className="text-center mt-5 home-container">
+        <div
+          className="spinner-border"
+          role="status"
+          style={{ color: "#ffa500" }}
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <ToastContainer />
@@ -584,13 +613,14 @@ export default function ManageArtistSong() {
         <div className="col-12">
           <div className="card">
             <DataTable
+              emptyMessage={"No Songs Available"}
               ref={dt}
               value={songs}
               selection={selectedSongs}
               onSelectionChange={(e) => setSelectedSongs(e.value)}
               dataKey="id"
               paginator
-              rows={4}
+              rows={3}
               rowsPerPageOptions={[5, 10, 25]}
               paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
               currentPageReportTemplate="Showing {first} to {last} of {totalRecords} songs"
@@ -899,7 +929,7 @@ export default function ManageArtistSong() {
             >
               <div className="confirmation-content">
                 <i
-                  className="pi pi-exclamation-triangle mr-3"
+                  className="pi pi-exclamation-triangle me-3"
                   style={{ fontSize: "2rem" }}
                 />
                 {song && (

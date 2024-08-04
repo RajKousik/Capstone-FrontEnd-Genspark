@@ -25,12 +25,13 @@ const SongsComponent = ({ setActiveLink, setSelectedSong }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [hoveredSongId, setHoveredSongId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   if (!currentSong && songs.length > 0) {
-  //     setCurrentSong(songs[0]); // Set the first song as default
-  //   }
-  // }, [currentSong, setCurrentSong, songs]);
+  useEffect(() => {
+    if (songs && songs.length > 0) {
+      setLoading(false); // Set the first song as default
+    }
+  }, [songs]);
 
   const handlePlayButtonClick = (song) => {
     if (currentSong?.id === song.id) {
@@ -153,7 +154,7 @@ const SongsComponent = ({ setActiveLink, setSelectedSong }) => {
           </div>
         ))}
         {filteredSongs.length === 0 && (
-          <div className="no-more-songs">No more songs</div>
+          <div className="no-more-songs">No Songs Available</div>
         )}
       </div>
     </div>

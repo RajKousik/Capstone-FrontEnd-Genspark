@@ -40,6 +40,7 @@ const ArtistProfileComponent = ({ activeLink, setActiveComponent }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showProfileActions, setShowProfileActions] = useState(true);
   const [showUserInfo, setShowUserInfo] = useState(true);
+  const [isDataFetched, setIsDataFetched] = useState(false);
 
   const { user } = useAuth();
 
@@ -52,6 +53,7 @@ const ArtistProfileComponent = ({ activeLink, setActiveComponent }) => {
         // const formattedDOB = userInfo.dob.split("T")[0]; // Format to YYYY-MM-DD
         // setTempUserData({ ...userInfo, dob: formattedDOB }); // Set tempUserData with formatted DOBs
         setTempUserData(userInfo);
+        setIsDataFetched(true);
       } catch (error) {
         toast.error("Failed to fetch user data.", {
           position: "top-right",
@@ -228,8 +230,18 @@ const ArtistProfileComponent = ({ activeLink, setActiveComponent }) => {
   //     </div>
   //   );
 
-  if (!userData) {
-    return <Spinner animation="border" />;
+  if (!isDataFetched) {
+    return (
+      <div className="text-center mt-5 home-container">
+        <div
+          className="spinner-border"
+          role="status"
+          style={{ color: "#ffa500" }}
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
   }
 
   const isSaveDisabled =
@@ -243,7 +255,7 @@ const ArtistProfileComponent = ({ activeLink, setActiveComponent }) => {
         <div className="profile-section">
           <div className="profile-image">
             <Image
-              src="https://res.cloudinary.com/deqk5oxse/image/upload/v1721715723/samples/smile.jpg"
+              src={user.imageUrl}
               className="profile-img"
               roundedCircle={!isEditing && window.innerWidth < 768}
             />

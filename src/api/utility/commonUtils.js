@@ -26,6 +26,12 @@ function formatDateTime(dateTimeString) {
   return `${day} ${month} ${year}`;
 }
 
+const formatDuration = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const sec = seconds % 60;
+  return `${minutes}:${sec < 10 ? `0${sec}` : sec}`;
+};
+
 const getEnrichedSongs = async (songs) => {
   const enrichedSongs = await Promise.all(
     songs.map(async (song) => {
@@ -74,4 +80,5 @@ export {
   getEnrichedSongs,
   getEnrichedPlaylists,
   getEnrichedSong,
+  formatDuration,
 };

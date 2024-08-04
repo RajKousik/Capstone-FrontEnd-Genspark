@@ -34,6 +34,8 @@ const ProfileComponent = ({ activeLink, setActiveComponent }) => {
     newPassword: "",
     confirmPassword: "",
   });
+
+  const [isDataFetched, setIsDataFetched] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showProfileActions, setShowProfileActions] = useState(true);
   const [showUserInfo, setShowUserInfo] = useState(true);
@@ -60,6 +62,7 @@ const ProfileComponent = ({ activeLink, setActiveComponent }) => {
           const premiumInfo = await getPremiumUserById(user.userId);
           setPremiumDetails(premiumInfo);
         }
+        setIsDataFetched(true);
       } catch (error) {
         toast.error("Failed to fetch user data.", {
           position: "top-right",
@@ -69,7 +72,7 @@ const ProfileComponent = ({ activeLink, setActiveComponent }) => {
       }
     };
     fetchUserData();
-  }, [user]);
+  }, []);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -223,8 +226,18 @@ const ProfileComponent = ({ activeLink, setActiveComponent }) => {
     </div>
   );
 
-  if (!userData) {
-    return <Spinner animation="border" />;
+  if (!isDataFetched) {
+    return (
+      <div className="text-center mt-5 home-container">
+        <div
+          className="spinner-border"
+          role="status"
+          style={{ color: "#ffa500" }}
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
   }
 
   const isSaveDisabled =
@@ -236,7 +249,7 @@ const ProfileComponent = ({ activeLink, setActiveComponent }) => {
       <div className="profile-section">
         <div className="profile-image">
           <Image
-            src="https://res.cloudinary.com/deqk5oxse/image/upload/v1721715723/samples/smile.jpg"
+            src="https://res.cloudinary.com/deqk5oxse/image/upload/v1722757749/profile_tmhwcg.jpg"
             className="profile-img"
             roundedCircle={!isEditing && window.innerWidth < 768}
           />

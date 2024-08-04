@@ -57,9 +57,13 @@ const PlaylistSongsComponent = ({
   const [searchTerm, setSearchTerm] = useState("");
 
   const { isPlayerVisible, setIsPlayerVisible } = useMusic();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setIsPlayerVisible(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
   }, []);
 
   const handlePlayPause = (song) => {
@@ -89,6 +93,11 @@ const PlaylistSongsComponent = ({
   };
 
   const handleAddToPlaylist = async () => {
+    toast.info("Adding Song to the playlist", {
+      position: "top-right",
+      autoClose: 2500,
+      pauseOnHover: false,
+    });
     if (selectedSong && playlist) {
       try {
         await addSongToPlaylist(playlist.playlistId, selectedSong.songId);
@@ -130,6 +139,11 @@ const PlaylistSongsComponent = ({
 
   const handleRemoveSong = async (songId) => {
     if (playlist) {
+      toast.info("Removing Song from playlist", {
+        position: "top-right",
+        autoClose: 2500,
+        pauseOnHover: false,
+      });
       try {
         await removeSongFromPlaylist(playlist.playlistId, songId);
         const updatedSongs = await getSongsByPlaylistId(playlist.playlistId);
@@ -203,8 +217,22 @@ const PlaylistSongsComponent = ({
     label: song.title,
   }));
 
+  if (loading) {
+    return (
+      <div className="text-center mt-5 home-container">
+        <div
+          className="spinner-border"
+          role="status"
+          style={{ color: "#ffa500" }}
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <Container style={{ paddingBottom: "120px" }}>
+    <Container style={{ paddingBottom: "120px", backgroundColor: "#f0f0f0" }}>
       <Row className="mt-4">
         <Col>
           <div className="d-flex align-items-center justify-content-between mb-2">
@@ -279,9 +307,7 @@ const PlaylistSongsComponent = ({
                     <div className="song-info">
                       <div className="song-details">
                         <Card.Title>{song.title}</Card.Title>
-                        <Card.Subtitle className="mb-2 text-muted">
-                          {song.artistName}
-                        </Card.Subtitle>
+                        <p className="mb-2 text-secondary">{song.artistName}</p>
                       </div>
                       <div className="song-actions">
                         <div className="like-remove">
@@ -325,7 +351,7 @@ const PlaylistSongsComponent = ({
                 className="mt-3 ms-4"
                 style={{ fontSize: "15px", fontWeight: "bold" }}
               >
-                No songs in the playlist
+                No Songs Found in this playlist
               </div>
             )}
           </div>

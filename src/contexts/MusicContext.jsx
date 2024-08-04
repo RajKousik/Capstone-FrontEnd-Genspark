@@ -33,15 +33,15 @@ export const MusicProvider = ({ children }) => {
 
   const toggleLike = async (songId) => {
     if (likedSongs.has(songId)) {
-      await deleteFavoriteSong(user.userId, songId);
       setLikedSongs((prevLikedSongs) => {
         const newLikedSongs = new Set(prevLikedSongs);
         newLikedSongs.delete(songId);
         return newLikedSongs;
       });
+      await deleteFavoriteSong(user.userId, songId);
     } else {
-      await addFavoriteSong(user.userId, songId);
       setLikedSongs((prevLikedSongs) => new Set(prevLikedSongs).add(songId));
+      await addFavoriteSong(user.userId, songId);
     }
   };
 

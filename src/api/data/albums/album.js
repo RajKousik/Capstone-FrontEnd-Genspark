@@ -21,7 +21,7 @@ const getAlbumByArtistId = async (artistId) => {
     return response.data;
   } catch (error) {
     console.error("Error getting albums by artist ID:", error);
-    return null;
+    return [];
   }
 };
 

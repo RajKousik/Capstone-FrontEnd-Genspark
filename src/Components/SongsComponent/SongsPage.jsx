@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useMusic } from "../../contexts/MusicContext";
 import SongsComponent from "./SongsComponent";
 import { useAuth } from "../../contexts/AuthContext";
@@ -25,6 +25,7 @@ const SongsPage = ({ activeLink, setActiveLink, setSelectedSong }) => {
   } = useMusic();
 
   const { user } = useAuth();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSongsData = async () => {
@@ -60,8 +61,21 @@ const SongsPage = ({ activeLink, setActiveLink, setSelectedSong }) => {
 
     // fetchSongsData();
     // fetchFavoriteSongs();
+    setLoading(false);
   }, [user, setCurrentSong, setLikedSongs, setSongs, activeLink]);
-
+  if (loading) {
+    return (
+      <div className="text-center mt-5 home-container">
+        <div
+          className="spinner-border"
+          role="status"
+          style={{ color: "#ffa500" }}
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
   return (
     <SongsComponent
       setActiveLink={setActiveLink}

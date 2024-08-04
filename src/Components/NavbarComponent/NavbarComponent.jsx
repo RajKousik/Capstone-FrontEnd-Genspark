@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navbar, Nav, Container, Dropdown } from "react-bootstrap";
 import { FaBars } from "react-icons/fa";
 import LogoWithNoBackground from "../../assets/logo/logo_no_background.png";
@@ -9,20 +9,23 @@ import { logoutUser } from "../../api/data/auth/auth";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getArtistById } from "../../api/data/artists/artist";
 
 const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  const profileImage =
+  var profileImage;
+
+  var profileImage =
     userRole.toLowerCase() !== "artist"
       ? "https://res.cloudinary.com/deqk5oxse/image/upload/v1722757749/profile_tmhwcg.jpg"
-      : user.ImageUrl;
+      : user.imageUrl;
 
   const handleLogout = async () => {
     toast.loading("Logging out", {
       position: "top-right",
-      autoClose: 1000,
+      autoClose: 100,
       pauseOnHover: false,
     });
     setTimeout(async () => {
@@ -33,7 +36,7 @@ const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
       } else {
         navigate("/login");
       }
-    }, 2000);
+    }, 1000);
   };
   return (
     <>
@@ -225,7 +228,7 @@ const NavbarComponent = ({ activeLink, setActiveComponent, userRole }) => {
               >
                 <div className="user-avatar">
                   <img
-                    src="https://res.cloudinary.com/deqk5oxse/image/upload/v1722757749/profile_tmhwcg.jpg"
+                    src={profileImage}
                     alt="User Avatar"
                     className="rounded-circle"
                     style={{

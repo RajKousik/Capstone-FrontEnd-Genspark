@@ -52,13 +52,19 @@ const deleteFavoriteSong = async (userId, songId) => {
 
 // Function to get favorite playlists by user ID
 const getFavoritePlaylistsByUserId = async (userId) => {
-  const response = await axiosInstance.get(
-    `/favorites/playlists?userId=${userId}`,
-    {
-      withCredentials: true,
-    }
-  );
-  return response.data;
+  try {
+    const response = await axiosInstance.get(
+      `/favorites/playlists?userId=${userId}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching favorite playlists by user ID:", error);
+    return [];
+  }
 };
 
 // Function to add a favorite playlist for a user

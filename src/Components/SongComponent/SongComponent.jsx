@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { FaStar, FaPlay, FaPause, FaRegStar } from "react-icons/fa";
 import "./SongComponent.css";
-import { formatDateTime } from "../../api/utility/commonUtils";
+import { formatDateTime, formatDuration } from "../../api/utility/commonUtils";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import { getArtistById } from "../../api/data/artists/artist";
@@ -14,6 +14,7 @@ import {
   updateRating,
 } from "../../api/data/ratings/rating"; // Import rating functions
 import { useMusic } from "../../contexts/MusicContext";
+import { ToastContainer, toast } from "react-toastify";
 
 const SongDetailComponent = ({ song }) => {
   const { user } = useAuth(); // Get the current user
@@ -75,6 +76,11 @@ const SongDetailComponent = ({ song }) => {
 
   const handleRatingClick = async (value) => {
     setRating(value);
+    toast.success("Rating updated successfully", {
+      position: "top-right",
+      autoClose: 500,
+      pauseOnHover: false,
+    });
     if (userRating) {
       // If the user already rated, update the rating
       await updateRating({
@@ -90,6 +96,7 @@ const SongDetailComponent = ({ song }) => {
         ratingValue: value,
       });
     }
+
     setUserRating(value); // Update local state
   };
 
@@ -107,80 +114,90 @@ const SongDetailComponent = ({ song }) => {
   }, []);
 
   return (
-    <Container fluid className="song-detail-container">
-      <Row className="h-100">
-        <Col
-          md={6}
-          className="d-flex align-items-center justify-content-center song-image-col"
-        >
-          <Card.Img
-            variant="top"
-            src="https://res.cloudinary.com/deqk5oxse/image/upload/v1722346839/rock_iyotrj.jpg"
-            className="song-image"
-          />
-        </Col>
-        <Col md={6} className="song-info-col">
-          <Card className="h-100" data-aos="fade-up">
-            <Card.Body className="d-flex flex-column justify-content-between">
-              <div className="song-info-container">
-                <Card.Title className="song-title">
-                  {songDetails.title}
-                </Card.Title>
-                <Card.Text>
-                  <span style={{ fontWeight: "bold" }}>Artist Name: </span>{" "}
-                  {songDetails.artistName}
-                </Card.Text>
-                {songDetails.albumName && (
+    <>
+      <ToastContainer />
+
+      <Container
+        fluid
+        className="song-detail-container"
+        style={{ backgroundColor: "#f0f0f0" }}
+      >
+        <Row className="h-100">
+          <Col
+            md={6}
+            className="d-flex align-items-center justify-content-center song-image-col"
+          >
+            <Card.Img
+              variant="top"
+              style={{ height: "500px", padding: "20px" }}
+              // src="https://res.cloudinary.com/deqk5oxse/image/upload/v1722346839/rock_iyotrj.jpg"
+              src={songDetails.imageUrl}
+              className="song-image img-fluid"
+            />
+          </Col>
+          <Col md={6} className="song-info-col">
+            <Card className="h-100" data-aos="fade-up">
+              <Card.Body className="d-flex flex-column justify-content-between">
+                <div className="song-info-container">
+                  <Card.Title className="song-title">
+                    {songDetails.title}
+                  </Card.Title>
                   <Card.Text>
-                    <span style={{ fontWeight: "bold" }}>Album Name: </span>{" "}
-                    {songDetails.albumName}
+                    <span style={{ fontWeight: "bold" }}>Artist Name: </span>{" "}
+                    {songDetails.artistName}
                   </Card.Text>
-                )}
-                <Card.Text>
-                  <span style={{ fontWeight: "bold" }}>Duration:</span>{" "}
-                  {songDetails.duration}
-                </Card.Text>
-                <Card.Text>
-                  <span style={{ fontWeight: "bold" }}>Release Date:</span>{" "}
-                  {formatDateTime(songDetails.releaseDate)}
-                </Card.Text>
-                <Card.Text>
-                  <span style={{ fontWeight: "bold" }}>Genre:</span>{" "}
-                  {songDetails.genre}
-                </Card.Text>
-                <div className="rating-container">
-                  {[1, 2, 3, 4, 5].map((value) => (
-                    <FaRegStar
-                      key={value}
-                      className={`rating-star ${
-                        value <= rating ? "active" : ""
-                      }`}
-                      onClick={() => handleRatingClick(value)}
-                    />
-                  ))}
+                  {songDetails.albumName && (
+                    <Card.Text>
+                      <span style={{ fontWeight: "bold" }}>Album Name: </span>{" "}
+                      {songDetails.albumName}
+                    </Card.Text>
+                  )}
+                  <Card.Text>
+                    <span style={{ fontWeight: "bold" }}>Duration:</span>{" "}
+                    {formatDuration(songDetails.duration)}
+                  </Card.Text>
+                  <Card.Text>
+                    <span style={{ fontWeight: "bold" }}>Release Date:</span>{" "}
+                    {formatDateTime(songDetails.releaseDate)}
+                  </Card.Text>
+                  <Card.Text>
+                    <span style={{ fontWeight: "bold" }}>Genre:</span>{" "}
+                    {songDetails.genre}
+                  </Card.Text>
+                  <div className="rating-container">
+                    {[1, 2, 3, 4, 5].map((value) => (
+                      <FaRegStar
+                        key={value}
+                        className={`rating-star ${
+                          value <= rating ? "active" : ""
+                        }`}
+                        onClick={() => handleRatingClick(value)}
+                      />
+                    ))}
+                    {/* <Button
+                      variant="outline-warning"
+                      className="submit-btn"
+                      onClick={() => handleRatingClick(rating)}
+                    >
+                      Submit
+                    </Button> */}
+                  </div>
+                </div>
+                <div className="play-pause-container d-flex justify-content-end">
                   <Button
-                    variant="outline-warning"
-                    className="submit-btn"
-                    onClick={() => handleRatingClick(rating)}
+                    variant="primary"
+                    className="play-pause-btn"
+                    onClick={() => handlePlayPause(song)}
                   >
-                    Submit
+                    {isPlaying ? <FaPause /> : <FaPlay />}
                   </Button>
                 </div>
-              </div>
-              <div className="play-pause-container d-flex justify-content-end">
-                <Button
-                  variant="primary"
-                  className="play-pause-btn"
-                  onClick={() => handlePlayPause(song)}
-                >
-                  {isPlaying ? <FaPause /> : <FaPlay />}
-                </Button>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

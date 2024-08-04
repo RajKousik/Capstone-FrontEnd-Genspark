@@ -36,6 +36,7 @@ const UserDashboard = ({ activeLink, setActiveLink }) => {
   const [songsData, setSongsData] = useState([]);
 
   const [selectedSong, setSelectedSong] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setActiveLink("songs");
@@ -74,15 +75,32 @@ const UserDashboard = ({ activeLink, setActiveLink }) => {
       }
     };
 
-    fetchSongsData();
-    fetchFavoriteSongs();
+    const fetch = async () => {
+      await fetchSongsData();
+      await fetchFavoriteSongs();
+      setLoading(false);
+    };
+
+    fetch();
   }, [user, setCurrentSong, setLikedSongs, setSongs]);
 
   // function handleSongClick(song) {
   //   // setSelectedSong(song);
   //   setActiveLink("song");
   // }
-
+  if (loading) {
+    return (
+      <div className="text-center mt-5 home-container">
+        <div
+          className="spinner-border"
+          role="status"
+          style={{ color: "#ffa500" }}
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="user-dashboard">
       <NavbarComponent

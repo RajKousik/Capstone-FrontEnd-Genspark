@@ -22,6 +22,8 @@ const ArtistComponent = () => {
 
   const { setIsPlayerVisible } = useMusic();
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     setIsPlayerVisible(false);
   }, []);
@@ -32,9 +34,10 @@ const ArtistComponent = () => {
         const artists = await getAllArtists();
 
         setArtists(artists);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching artists:", error);
-        toast.error("Error fetching artists", {
+        toast.error(error.response.data.message, {
           position: "top-right",
           autoClose: 1500,
           pauseOnHover: false,
@@ -43,7 +46,7 @@ const ArtistComponent = () => {
     };
 
     fetchArtists();
-  }, [user.userId]);
+  }, []);
 
   const handleViewArtistClick = async (artist) => {
     setSelectedArtist(artist);
@@ -70,6 +73,20 @@ const ArtistComponent = () => {
     setSelectedArtist(null);
   };
 
+  if (loading) {
+    return (
+      <div className="text-center mt-5 home-container">
+        <div
+          className="spinner-border"
+          role="status"
+          style={{ color: "#ffa500" }}
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       {selectedArtist ? (
@@ -81,7 +98,9 @@ const ArtistComponent = () => {
           isUserPlaylist={false}
         />
       ) : (
-        <Container style={{ paddingBottom: "120px" }}>
+        <Container
+          style={{ paddingBottom: "120px", backgroundColor: "#f0f0f0" }}
+        >
           <Row className="mt-4">
             <Col>
               <div className="playlist-header-container">

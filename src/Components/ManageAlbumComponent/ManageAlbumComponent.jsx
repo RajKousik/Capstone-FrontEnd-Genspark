@@ -50,6 +50,8 @@ export default function ManageAlbumComponent() {
   const [editImageUrl, setEditImageUrl] = useState("");
   const [expandedRows, setExpandedRows] = useState(null);
 
+  const [isDataFetched, setIsDataFetched] = useState(false);
+
   const dt = useRef(null);
 
   //   const [albumOptions, setAlbumOptions] = useState([]);
@@ -83,13 +85,19 @@ export default function ManageAlbumComponent() {
   useEffect(() => {
     async function fetchAlbums() {
       const response = await getAlbumByArtistId(user.artistId);
-      const albumsWithSongs = await Promise.all(
-        response.map(async (album) => {
-          const songs = await getSongsByAlbumId(album.albumId);
-          return { ...album, songs };
-        })
-      );
-      setAlbums(albumsWithSongs);
+
+      if (response.length > 0) {
+        const albumsWithSongs = await Promise.all(
+          response.map(async (album) => {
+            const songs = await getSongsByAlbumId(album.albumId);
+
+            return { ...album, songs };
+          })
+        );
+
+        setAlbums(albumsWithSongs);
+        setIsDataFetched(true);
+      }
     }
     fetchAlbums();
   }, [user.artistId]);
@@ -173,10 +181,8 @@ export default function ManageAlbumComponent() {
 
   const deleteSelectedAlbums = async () => {
     try {
-      console.log("selectedAlbums :>> ", selectedAlbums);
       const selectedAlbumIds = selectedAlbums.map((album) => album.albumId);
 
-      console.log("selectedAlbumsIds :>> ", selectedAlbumIds);
       let _albums = albums.filter((val) => !selectedAlbums.includes(val));
 
       const response = await deleteAlbumsRange(selectedAlbumIds);
@@ -230,7 +236,7 @@ export default function ManageAlbumComponent() {
   //     if (file) {
   //       const audio = new Audio(URL.createObjectURL(file));
   //       audio.onloadedmetadata = () => {
-  //         console.log(
+  //
   //           " Math.floor(audio.duration):>> ",
   //           Math.floor(audio.duration)
   //         );
@@ -261,7 +267,7 @@ export default function ManageAlbumComponent() {
   //     if (file) {
   //       const audio = new Audio(URL.createObjectURL(file));
   //       audio.onloadedmetadata = () => {
-  //         console.log(
+  //
   //           " Math.floor(audio.duration):>> ",
   //           Math.floor(audio.duration)
   //         );
@@ -394,7 +400,6 @@ export default function ManageAlbumComponent() {
   const updateAlbumDetails = async () => {
     setSubmitted(true);
 
-    console.log("editAlbum :>> ", editAlbum);
     // if (!editImageUrl) {
     //   console.error("Image file is required");
     //   toast.error("Image file is required", {
@@ -420,9 +425,8 @@ export default function ManageAlbumComponent() {
       artistId: editAlbum.artistId,
     };
 
-    console.log("albumToBeUpdated :>> ", albumToBeUpdated);
-
-    let _albums = [...albums]; // Copy existing Albums
+    let _albums = [];
+    if (albums) _albums = [...albums]; // Copy existing Albums
 
     try {
       const response = await updateAlbum(editAlbum.albumId, albumToBeUpdated);
@@ -480,7 +484,8 @@ export default function ManageAlbumComponent() {
       artistId: addAlbum.artistId,
     };
 
-    let _albums = [...albums]; // Copy existing albums
+    let _albums = [];
+    if (albums) _albums = [...albums]; // Copy existing albums
 
     try {
       const response = await createAlbum(album);
@@ -511,6 +516,7 @@ export default function ManageAlbumComponent() {
         label="Cancel"
         icon="pi pi-times"
         outlined
+        className="me-2"
         onClick={hideAddDialog}
       />
       <Button label="Save" icon="pi pi-check" onClick={addNewAlbum} />
@@ -523,6 +529,7 @@ export default function ManageAlbumComponent() {
         label="Cancel"
         icon="pi pi-times"
         outlined
+        className="me-2"
         onClick={hideEditDialog}
       />
       <Button label="Save" icon="pi pi-check" onClick={updateAlbumDetails} />
@@ -532,6 +539,7 @@ export default function ManageAlbumComponent() {
   const deleteAlbumDialogFooter = (
     <React.Fragment>
       <Button
+        className="me-2"
         label="No"
         icon="pi pi-times"
         outlined
@@ -550,6 +558,7 @@ export default function ManageAlbumComponent() {
       <Button
         label="No"
         icon="pi pi-times"
+        className="me-2"
         outlined
         onClick={hideDeleteAlbumsDialog}
       />
@@ -616,6 +625,20 @@ export default function ManageAlbumComponent() {
     );
   };
 
+  if (!isDataFetched) {
+    return (
+      <div className="text-center mt-5 home-container">
+        <div
+          className="spinner-border"
+          role="status"
+          style={{ color: "#ffa500" }}
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <ToastContainer />
@@ -624,6 +647,7 @@ export default function ManageAlbumComponent() {
         <div className="col-12">
           <div className="card">
             <DataTable
+              emptyMessage={"No Albums Available"}
               ref={dt}
               rowExpansionTemplate={rowExpansionTemplate}
               expandedRows={expandedRows}
@@ -633,7 +657,7 @@ export default function ManageAlbumComponent() {
               onSelectionChange={(e) => setSelectedAlbums(e.value)}
               dataKey="albumId"
               paginator
-              rows={4}
+              rows={3}
               rowsPerPageOptions={[5, 10, 25]}
               paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
               currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Albums"
@@ -784,9 +808,7 @@ export default function ManageAlbumComponent() {
                   url={"/api/upload"}
                   customUpload
                   uploadHandler={handleEditImageUpload}
-                  onUpload={async () => {
-                    console.log("upload completed");
-                  }}
+                  onUpload={async () => {}}
                   accept="image/*"
                   maxFileSize={1000000} // 1MB
                 />
@@ -806,15 +828,15 @@ export default function ManageAlbumComponent() {
               footer={deleteAlbumDialogFooter}
               onHide={hideDeleteAlbumDialog}
             >
-              <div className="confirmation-content">
+              <div className="confirmation-content d-flex align-items-center">
                 <i
-                  className="pi pi-exclamation-triangle mr-3"
-                  style={{ fontSize: "2rem" }}
+                  className="pi pi-exclamation-triangle me-3 vertical-align-center"
+                  style={{ fontSize: "2rem", color: "red" }}
                 />
                 {album && (
-                  <span>
+                  <p className="d-inline-block mt-2">
                     Are you sure you want to delete <b>{album.title}</b>?
-                  </span>
+                  </p>
                 )}
               </div>
             </Dialog>

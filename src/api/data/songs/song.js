@@ -15,10 +15,15 @@ const getSongById = async (songId) => {
 };
 
 const getSongsByAlbumId = async (albumId) => {
-  const response = await axiosInstance.get(`/songs/album/${albumId}`, {
-    withCredentials: true,
-  });
-  return response.data;
+  try {
+    const response = await axiosInstance.get(`/songs/album/${albumId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching songs by album ID:", error);
+    return [];
+  }
 };
 
 const getSongByGenre = async (genre) => {

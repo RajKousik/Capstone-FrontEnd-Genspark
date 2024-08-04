@@ -36,7 +36,10 @@ import { useMusic } from "../../contexts/MusicContext";
 import { getSongByGenre, getSongById } from "../../api/data/songs/song";
 import { getArtistById } from "../../api/data/artists/artist";
 import { getAlbumById } from "../../api/data/albums/album";
-import { formatDateTime } from "../../api/utility/commonUtils";
+import {
+  formatDateTime,
+  getEnrichedPlaylists,
+} from "../../api/utility/commonUtils";
 import PlaylistSongsComponent from "../PlaylistSongsComponent/PlaylistSongsComponent";
 import { getSongsByPlaylistId } from "../../api/data/playlistsongs/playlistsongs";
 import GenreTypes from "../../api/utility/genreTypes";
@@ -53,6 +56,7 @@ const PlaylistComponent = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editPlaylist, setEditPlaylist] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [newPlaylist, setNewPlaylist] = useState({
     name: "",
     isPublic: false,
@@ -80,7 +84,9 @@ const PlaylistComponent = () => {
     const fetchPlaylists = async () => {
       try {
         const userPlaylists = await getUserPlaylists(user.userId);
+
         const publicPlaylists = await getPublicPlaylists();
+
         const favoritePlaylists = await getFavoritePlaylistsByUserId(
           user.userId
         );
@@ -111,9 +117,10 @@ const PlaylistComponent = () => {
         setPublicPlaylists(updatedPublicPlaylists);
         setFavorites(new Set(favoritePlaylists.map((pl) => pl.playlistId)));
         setGenrePlaylists(genrePlaylists);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching playlists:", error);
-        toast.error("Error fetching playlists", {
+        toast.error(error.response?.data?.message, {
           position: "top-right",
           autoClose: 1500,
           pauseOnHover: false,
@@ -156,15 +163,15 @@ const PlaylistComponent = () => {
   const toggleFavorite = async (playlistId) => {
     try {
       if (favorites.has(playlistId)) {
-        await deleteFavoritePlaylist(user.userId, playlistId);
         setFavorites((prevFavorites) => {
           const newFavorites = new Set(prevFavorites);
           newFavorites.delete(playlistId);
           return newFavorites;
         });
+        await deleteFavoritePlaylist(user.userId, playlistId);
       } else {
-        await addFavoritePlaylist(user.userId, playlistId);
         setFavorites((prevFavorites) => new Set(prevFavorites).add(playlistId));
+        await addFavoritePlaylist(user.userId, playlistId);
       }
     } catch (error) {
       console.error("Error updating favorite status:", error);
@@ -204,6 +211,14 @@ const PlaylistComponent = () => {
   };
 
   const handleAddPlaylist = async () => {
+    if (!newPlaylist.name || !newPlaylist.imageUrl) {
+      toast.error("Playlist name and image are required", {
+        position: "top-right",
+        autoClose: 2000,
+        pauseOnHover: false,
+      });
+      return;
+    }
     try {
       const playlist = await createPlaylist({
         ...newPlaylist,
@@ -213,7 +228,7 @@ const PlaylistComponent = () => {
       const addedPlaylist = { ...playlist, owner: response.username };
       setMyPlaylists([...myPlaylists, addedPlaylist]);
       setShowAddModal(false);
-      setNewPlaylist({ name: "", isPublic: true, imageUrl: "" }); // Reset form
+      setNewPlaylist({ name: "", isPublic: false, imageUrl: "" }); // Reset form
       toast.success("Playlist added successfully", {
         position: "top-right",
         autoClose: 2000,
@@ -278,8 +293,21 @@ const PlaylistComponent = () => {
 
   const handleBackClick = () => {
     setSelectedPlaylist(null);
+    setPlaylistSongs([]);
   };
-
+  if (loading) {
+    return (
+      <div className="text-center mt-5 home-container">
+        <div
+          className="spinner-border"
+          role="status"
+          style={{ color: "#ffa500" }}
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       {selectedPlaylist ? (
@@ -307,7 +335,9 @@ const PlaylistComponent = () => {
         /* </Col>
           </Row>
         </Container> */
-        <Container style={{ paddingBottom: "120px" }}>
+        <Container
+          style={{ paddingBottom: "120px", backgroundColor: "#f0f0f0" }}
+        >
           <Row className="mt-4">
             <Col>
               <div className="playlist-header-container">
@@ -384,9 +414,9 @@ const PlaylistComponent = () => {
                           </Dropdown.Menu>
                         </Dropdown>
                       </Card.Title>
-                      <Card.Text>
+                      {/* <Card.Text>
                         <small>Owned by: {playlist.owner}</small>
-                      </Card.Text>
+                      </Card.Text> */}
                       <div className="d-flex justify-content-between align-items-center">
                         <Button
                           variant="primary"
@@ -564,6 +594,7 @@ const PlaylistComponent = () => {
                       setNewPlaylist({ ...newPlaylist, name: e.target.value })
                     }
                     placeholder="Enter playlist name"
+                    required
                   />
                 </Form.Group>
 
@@ -573,6 +604,7 @@ const PlaylistComponent = () => {
                     type="file"
                     onChange={handleImageChange}
                     accept="image/*"
+                    required
                   />
                 </Form.Group>
 

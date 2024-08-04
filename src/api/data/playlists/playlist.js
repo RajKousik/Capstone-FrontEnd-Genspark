@@ -9,7 +9,7 @@ const getPublicPlaylists = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching public playlists:", error);
-    throw error;
+    return [];
   }
 };
 
@@ -22,7 +22,7 @@ const getUserPlaylists = async (userId) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching user's playlists:", error);
-    throw error;
+    return [];
   }
 };
 
@@ -77,7 +77,7 @@ const getAllPlaylists = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching all playlists:", error);
-    throw error;
+    return [];
   }
 };
 

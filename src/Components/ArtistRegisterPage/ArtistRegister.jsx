@@ -72,7 +72,7 @@ export default function RegisterPage() {
           });
 
           setTimeout(() => {
-            navigate("/login");
+            navigate("/artist/login");
             setLoading(false);
           }, 1500);
         } else {
