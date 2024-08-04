@@ -72,7 +72,6 @@ export default function RegisterPage() {
           });
 
           setTimeout(() => {
-            login(response, response.token);
             navigate("/login");
             setLoading(false);
           }, 1500);

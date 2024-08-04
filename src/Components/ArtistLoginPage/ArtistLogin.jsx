@@ -59,7 +59,7 @@ export default function SignInSide() {
 
           setTimeout(() => {
             login(response, response.token);
-            navigate("/artist/login");
+            navigate("/artist-dashboard");
             setLoading(false);
             setEmail("");
             setPassword("");
