@@ -1,197 +1,172 @@
-# React + Vite
+# Vibe Vault - Music Management System Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+**Vibe Vault - Music Management System Frontend** is the client-side application designed to interact with the Vibe Vault backend. It provides a seamless user experience for managing music, playlists, favorites, and ratings. The frontend supports multiple user roles including Admin, Premium User, Normal User, and Artist, and integrates with Stripe for payment processing. The application is built using React and leverages various libraries and frameworks for state management, routing, and UI components.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Table of Contents
+
+- [Features](#features)
+- [Technologies](#technologies)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Components](#components)
+- [Context Management](#context-management)
+- [Payment Processing](#payment-processing)
+- [Email Notifications](#email-notifications)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Features
+
+- **User Management**: Admin, Premium User, Normal User, Artist
+- **Music Management**: Songs, Playlists, Favorites, Ratings
+- **Payment Processing**: Stripe integration for premium subscriptions
+- **State Management**: Context API for managing global state
+- **Responsive Design**: Mobile-friendly interface
+- **Email Notifications**: Integration with backend for email notifications
+
+## Technologies
+
+- **Frontend Framework**: React
+- **State Management**: Context API
+- **Routing**: React Router
+- **UI Components**: React-Bootstrap
+- **Payment Gateway**: Stripe
+- **Others**: Axios, React-Toastify
+
+## Installation
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/RajKousik/Capstone-FrontEnd-Genspark.git
+   ```
+
+2. **Install dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+3. **Run the application**:
+   ```bash
+   npm run dev
+   ```
+
+## Configuration
+
+Configure the following settings in the `.env` file:
+
+- **Backend API URL**:
+
+  ```env
+  REACT_APP_API_URL=http://localhost:5000/api/v1
+  ```
+
+- **Stripe**:
+  ```env
+  REACT_APP_STRIPE_PUBLIC_KEY=your_stripe_public_key
+  ```
+
+## Usage
+
+### User Roles
+
+- **Admin**: Manage all aspects of the system.
+- **Premium User**: Access premium features such as unlimited playlist creation.
+- **Normal User**: Access basic features with limitations.
+- **Artist**: Manage their own songs and albums.
+
+### Music Management
+
+- **Songs**: Browse and manage songs.
+- **Playlists**: Create, update, and delete playlists.
+- **Favorites**: Mark and unmark songs as favorites.
+- **Ratings**: Rate songs.
+
+## Components
+
+### Common Components
+
+- **NavbarComponent**: Navigation bar for the application.
+- **FooterComponent**: Footer for the application.
+
+### Authentication Components
+
+- **LoginComponent**: User login.
+- **RegisterComponent**: User registration.
+- **VerificationComponent**: Email verification.
+
+### Dashboard Components
+
+- **AdminDashboard**: Dashboard for admin users.
+- **UserDashboard**: Dashboard for premium and normal users.
+- **ArtistDashboard**: Dashboard for artist users.
+
+### Music Components
+
+- **SongsComponent**: List and manage songs.
+- **PlaylistsComponent**: List and manage playlists.
+- **FavoritesComponent**: List favorite songs.
+- **RatingsComponent**: Rate songs.
+
+## Context Management
+
+- **AuthContext**: Manages authentication state and user information.
+- **MusicContext**: Manages music-related state such as songs, playlists, and favorites.
+
+### Example Usage
+
+```jsx
+import { useContext } from "react";
+import { AuthContext } from "./contexts/AuthContext";
+
+const MyComponent = () => {
+  const { user, login, logout } = useContext(AuthContext);
+
+  return (
+    <div>
+      <h1>Welcome, {user.name}</h1>
+      <button onClick={logout}>Logout</button>
+    </div>
+  );
+};
+```
+
+## Payment Processing
+
+**Stripe Integration**: The frontend integrates with Stripe for handling premium subscriptions. Users can upgrade to premium plans using Stripe's secure payment gateway.
+
+### Example Usage
+
+```jsx
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "./components/CheckoutForm";
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+
+const CheckoutComponent = () => (
+  <Elements stripe={stripePromise}>
+    <CheckoutForm />
+  </Elements>
+);
+```
+
+## Email Notifications
+
+The frontend communicates with the backend to trigger email notifications for various events such as subscription renewals and account verification.
+
+## Project Structure
 
 ```
 MusicApplicationFrontEnd
 ├─ .eslintrc.cjs
-├─ .git
-│  ├─ COMMIT_EDITMSG
-│  ├─ config
-│  ├─ description
-│  ├─ HEAD
-│  ├─ hooks
-│  │  ├─ applypatch-msg.sample
-│  │  ├─ commit-msg.sample
-│  │  ├─ fsmonitor-watchman.sample
-│  │  ├─ post-update.sample
-│  │  ├─ pre-applypatch.sample
-│  │  ├─ pre-commit.sample
-│  │  ├─ pre-merge-commit.sample
-│  │  ├─ pre-push.sample
-│  │  ├─ pre-rebase.sample
-│  │  ├─ pre-receive.sample
-│  │  ├─ prepare-commit-msg.sample
-│  │  ├─ push-to-checkout.sample
-│  │  ├─ sendemail-validate.sample
-│  │  └─ update.sample
-│  ├─ index
-│  ├─ info
-│  │  └─ exclude
-│  ├─ objects
-│  │  ├─ 02
-│  │  │  └─ aec9bb7c66c08398ae59aaafe86181ad9717a8
-│  │  ├─ 05
-│  │  │  └─ c75c045b9c7dbe95f7a9832a025b2515b9f5e4
-│  │  ├─ 0c
-│  │  │  └─ 589eccd4d48e270e161a1ab91baee5e5f4b4bc
-│  │  ├─ 10
-│  │  │  └─ d6867114a7a3421755f971af909fa52dce9f3c
-│  │  ├─ 11
-│  │  │  ├─ 1e055be92e2aa2a7df3657e31a9307bb3719f4
-│  │  │  └─ 603f2f09faa788c573e41a3f0b55a0af5ef583
-│  │  ├─ 13
-│  │  │  └─ 1887c4d99d4924101520ee697febe09911ae94
-│  │  ├─ 17
-│  │  │  └─ 7f3aa69a63ed066be2e9dfd514107df3b16d82
-│  │  ├─ 21
-│  │  │  └─ 0d852afce9d48e2307d41735a8bb495efc2f6e
-│  │  ├─ 23
-│  │  │  └─ cfc6af87259e978a0d01a9e01119e9e9a8beec
-│  │  ├─ 24
-│  │  │  └─ 0e8a0201202eee0dedc063d8beeef5e47b151b
-│  │  ├─ 28
-│  │  │  └─ 12922ec2f350a76c1fdb937a6f85cac5cb5013
-│  │  ├─ 29
-│  │  │  └─ 5176a316a9a1dee291c33acefb3f5086e98015
-│  │  ├─ 2b
-│  │  │  └─ d4efbbfe0032b061d0bb5ed546ed683f00e7d2
-│  │  ├─ 2d
-│  │  │  └─ c9a9566d00cbda7bf6789bc0de845bb8e1bddb
-│  │  ├─ 2e
-│  │  │  └─ fe9b15fb899447bc141d7977e22316ac1ed3c0
-│  │  ├─ 35
-│  │  │  └─ c70f1a83f3ef9bf3e21338d1bbed0135e643bb
-│  │  ├─ 37
-│  │  │  ├─ 429beb25e168db08b951c2a6c6e09b261d7f2d
-│  │  │  └─ cf7a1f660744b8a2cfe542304319ec84222dd8
-│  │  ├─ 38
-│  │  │  ├─ 6ee124ed10943200be848805c9d58955ffe668
-│  │  │  ├─ 8cad14a0218dcccac8ff49e0972c91916a46ad
-│  │  │  └─ e1dae6c6d87c02b9cf9de65b9540ae0826a331
-│  │  ├─ 39
-│  │  │  └─ 1e876092d6e99570a14a03e74d3e2e4e911232
-│  │  ├─ 3a
-│  │  │  └─ a83608d8b334353f82670d3da1e9fdf2d38cd9
-│  │  ├─ 3c
-│  │  │  └─ dcb4994db2b40bdec22f2d645d31e467d5ef01
-│  │  ├─ 3e
-│  │  │  └─ 212e1d4307a332e8511f530bc48a4ad5ed6f95
-│  │  ├─ 51
-│  │  │  └─ ad380a5003cebae117118736cc4b8155a38c33
-│  │  ├─ 54
-│  │  │  └─ b39dd1d900e866bb91ee441d372a8924b9d87a
-│  │  ├─ 55
-│  │  │  └─ 7b37c44d5cb352ff331f90e7fba0189cdfa65e
-│  │  ├─ 57
-│  │  │  └─ c5233cc6b155cd3d77fcba9d23739f75652f42
-│  │  ├─ 58
-│  │  │  └─ ef980b873f7270f620c475c2ab979fd1a8b59c
-│  │  ├─ 5a
-│  │  │  └─ 33944a9b41b59a9cf06ee4bb5586c77510f06b
-│  │  ├─ 61
-│  │  │  └─ 19ad9a8faaa5073a454f67b50fb98a25972fd2
-│  │  ├─ 62
-│  │  │  └─ c90e425990cbe7debc6f8b92e6fce226422f27
-│  │  ├─ 67
-│  │  │  └─ 25d1a86898080431b5095ca64a00350318288a
-│  │  ├─ 69
-│  │  │  └─ de905035f9e99919349f35cbe68f55643f5191
-│  │  ├─ 6c
-│  │  │  └─ 87de9bb3358469122cc991d5cf578927246184
-│  │  ├─ 6f
-│  │  │  └─ 356f418b770244e1f15dbd565c4c00d3b446d1
-│  │  ├─ 71
-│  │  │  ├─ a5328a35ac54073d1938d496d3a8d313353dd4
-│  │  │  └─ bd0424cbfd9386c6935ce9dc069c20a567da92
-│  │  ├─ 73
-│  │  │  └─ 75d37d1320ab1cad938a4785d7dc241216f15e
-│  │  ├─ 76
-│  │  │  └─ e2e1848f223e274fb01144525f286f42d8dbc9
-│  │  ├─ 7a
-│  │  │  └─ 1d780dabbdc65d85b18a7e517e9f5364185a0e
-│  │  ├─ 7d
-│  │  │  └─ 51a9d7c9bc78d9bef647baf8f67ecea05a5f37
-│  │  ├─ 86
-│  │  │  └─ 6aad3607a8fd12c517f68ccec1e44b7db49f11
-│  │  ├─ 89
-│  │  │  └─ 71bbe8983736c8e4ab0d22abfaa6b95a18bfef
-│  │  ├─ 8f
-│  │  │  └─ ec16f5dbb412d009fdfcb7d8caec96d17aceb1
-│  │  ├─ 94
-│  │  │  └─ c0b2fc152a086447a04f62793957235d2475be
-│  │  ├─ 96
-│  │  │  └─ a0dfa9a8ca98877c193ba1aa8c10289ca79c97
-│  │  ├─ 97
-│  │  │  └─ acbf802e9b4c8829f11179a8ea8e6b49cba18d
-│  │  ├─ 98
-│  │  │  ├─ 432dfb9b56b3d2b7ce4098af686f8adc0a7f1d
-│  │  │  └─ 47074a343f38748c08a9c94865c028b522c1ae
-│  │  ├─ a2
-│  │  │  ├─ 6a58c3378e830e640882ad5fadb5ed4dfcc4b0
-│  │  │  └─ cf31aec0d3737c1064c03a73a55dcad1c31483
-│  │  ├─ a4
-│  │  │  └─ b940618e62959b53f9e587b9c3379dcce10ea8
-│  │  ├─ a5
-│  │  │  ├─ 47bf36d8d11a4f89c59c144f24795749086dd1
-│  │  │  └─ 707ba09612ff80e62f85d338085e292ec3ff05
-│  │  ├─ a9
-│  │  │  └─ 31f754cd0c5fac5421727a6f8e264ad786838f
-│  │  ├─ ae
-│  │  │  └─ d6f280c6f66f1bb3b14ff86538fc867a54ecd2
-│  │  ├─ b0
-│  │  │  ├─ 3f8fe4481c7a80e5219231e1c34c34be523cb7
-│  │  │  └─ 7c7b9652199d80a0a2cb5cdc5b185c71599481
-│  │  ├─ b6
-│  │  │  └─ 64cc94e788a50fa3e2e5c4413d45ee70e094b4
-│  │  ├─ b8
-│  │  │  └─ b8473a3696b4f77deff889a84ab45629c42079
-│  │  ├─ b9
-│  │  │  ├─ abe51bff0721ba72995ca5d12ff14088f0b228
-│  │  │  └─ d355df2a5956b526c004531b7b0ffe412461e0
-│  │  ├─ bd
-│  │  │  └─ f4f5059a9035d9e7af5d33b0664e38d247d3d2
-│  │  ├─ c3
-│  │  │  └─ 4c69f7c9ced9ead58fe9b97fe2815dfcff6d0c
-│  │  ├─ c8
-│  │  │  └─ 40ec2ffa8ba15c18a47df03d20fa4064fb7169
-│  │  ├─ d0
-│  │  │  └─ 36fc74ae204e01f6e29b801832e86191bd860d
-│  │  ├─ d1
-│  │  │  └─ 212a26fcb008632b0aba8c47bf008e660827f5
-│  │  ├─ d6
-│  │  │  └─ ca653a43afbfddc9cd8e0d255984da966a33e2
-│  │  ├─ de
-│  │  │  └─ e89797fed72648ea7387a6f630665a315b7c2b
-│  │  ├─ e6
-│  │  │  ├─ 5bd1a7bf322abb32cca8eaa21ea903e7dc0fa0
-│  │  │  └─ 9de29bb2d1d6434b8b29ae775ad8c2e48c5391
-│  │  ├─ e7
-│  │  │  └─ b8dfb1b2a60bd50538bec9f876511b9cac21e3
-│  │  ├─ f6
-│  │  │  ├─ 2c0385c10498903305cc9f4a980361a10756b5
-│  │  │  └─ a8ab1477111f30b41e930d42af0e8d5145103f
-│  │  ├─ f7
-│  │  │  ├─ 37720987fe22572a7129d65962a1e3ecd904ab
-│  │  │  └─ 68e33fc946e6074d6bd3ce5d454853adb3615e
-│  │  ├─ fc
-│  │  │  └─ db2b67bacc322699c61026f60cb03e36fbaf52
-│  │  ├─ ff
-│  │  │  └─ 4be405bd0ce1c07c171fb3c289f0fc4a54ce5a
-│  │  ├─ info
-│  │  └─ pack
-│  └─ refs
-│     ├─ heads
-│     │  └─ master
-│     ├─ remotes
-│     │  └─ origin
-│     │     └─ master
-│     └─ tags
+├─ .github
+│  └─ workflows
+│     └─ azure-static-web-apps-calm-mud-018043c1e.yml
 ├─ .gitignore
 ├─ index.html
 ├─ package-lock.json
@@ -205,39 +180,163 @@ MusicApplicationFrontEnd
 ├─ README.md
 ├─ src
 │  ├─ api
-│  │  └─ axiosConfig.js
+│  │  ├─ axiosConfig.js
+│  │  ├─ data
+│  │  │  ├─ albums
+│  │  │  │  └─ album.js
+│  │  │  ├─ artists
+│  │  │  │  └─ artist.js
+│  │  │  ├─ auth
+│  │  │  │  └─ auth.js
+│  │  │  ├─ favorites
+│  │  │  │  └─ favorite.js
+│  │  │  ├─ playlists
+│  │  │  │  └─ playlist.js
+│  │  │  ├─ playlistsongs
+│  │  │  │  └─ playlistsongs.js
+│  │  │  ├─ ratings
+│  │  │  │  └─ rating.js
+│  │  │  ├─ songs
+│  │  │  │  └─ song.js
+│  │  │  └─ users
+│  │  │     └─ user.js
+│  │  └─ utility
+│  │     ├─ commonUtils.js
+│  │     ├─ genreTypes.js
+│  │     └─ stripePayment.js
 │  ├─ App.css
 │  ├─ App.jsx
 │  ├─ assets
 │  │  ├─ images
-│  │  │  └─ RegisterLoginImage.jpg
+│  │  │  ├─ ArtistRegisterLoginImage.png
+│  │  │  ├─ AudioWave.png
+│  │  │  ├─ backgraphics.png
+│  │  │  ├─ phone_view_1.png
+│  │  │  ├─ phone_view_2.png
+│  │  │  ├─ phone_view_3.png
+│  │  │  ├─ phone_view_4.png
+│  │  │  ├─ premium_upgrade_logo_1.jpg
+│  │  │  ├─ premium_upgrade_logo_2.jpg
+│  │  │  ├─ premium_upgrade_logo_3.jpg
+│  │  │  ├─ RegisterLoginImage.jpg
+│  │  │  └─ SongWave2.png
 │  │  └─ logo
-│  │     └─ logo.jpg
+│  │     ├─ logo.jpg
+│  │     └─ logo_no_background.png
+│  ├─ cloudinary
+│  │  └─ cloudinary.js
 │  ├─ Components
-│  │  ├─ AdminDashboard.jsx
-│  │  ├─ ArtistDashboard.jsx
+│  │  ├─ AdminDashboard
+│  │  │  └─ AdminDashboard.jsx
+│  │  ├─ AdminProfileComponent
+│  │  │  └─ AdminProfileComponent.jsx
+│  │  ├─ ArtistComponent
+│  │  │  ├─ ArtistComponent.css
+│  │  │  └─ ArtistComponent.jsx
+│  │  ├─ ArtistDashboard
+│  │  │  ├─ ArtistDashboard.css
+│  │  │  └─ ArtistDashboard.jsx
+│  │  ├─ ArtistLoginPage
+│  │  │  └─ ArtistLogin.jsx
+│  │  ├─ ArtistProfileComponent
+│  │  │  └─ ArtistProfileComponent.jsx
+│  │  ├─ ArtistRegisterPage
+│  │  │  └─ ArtistRegister.jsx
+│  │  ├─ CheckoutComponent
+│  │  │  ├─ CheckoutComponent.css
+│  │  │  └─ CheckoutComponent.jsx
 │  │  ├─ DashboardComponent.jsx
-│  │  ├─ LeftNavbar.jsx
-│  │  ├─ LoginComponent.jsx
-│  │  ├─ MusicPlayerComponent.jsx
-│  │  ├─ NavbarComponent.jsx
-│  │  ├─ RegisterComponent.jsx
-│  │  ├─ SongsComponent.jsx
-│  │  ├─ TopNavbar.jsx
-│  │  ├─ UserDashboard.jsx
-│  │  └─ VerificationComponent.jsx
+│  │  ├─ LandingPageComponent
+│  │  │  ├─ Body
+│  │  │  │  ├─ LandingPageBody.css
+│  │  │  │  └─ LandingPageBody.jsx
+│  │  │  ├─ Footer
+│  │  │  │  ├─ Footer.css
+│  │  │  │  └─ Footer.jsx
+│  │  │  ├─ Header
+│  │  │  │  └─ Header.jsx
+│  │  │  ├─ LandingPageComponent.css
+│  │  │  └─ LandingPageComponent.jsx
+│  │  ├─ LoginComponent
+│  │  │  └─ LoginComponent.jsx
+│  │  ├─ LogoutComponent
+│  │  │  └─ LogoutComponent.jsx
+│  │  ├─ ManageAlbumComponent
+│  │  │  └─ ManageAlbumComponent.jsx
+│  │  ├─ ManageArtistComponent
+│  │  │  ├─ ManageArtistComponent.css
+│  │  │  └─ ManageArtistComponent.jsx
+│  │  ├─ ManageArtistSong
+│  │  │  ├─ ManageArtistSong.css
+│  │  │  └─ ManageArtistSong.jsx
+│  │  ├─ ManagePlaylistsComponent
+│  │  │  ├─ ManagePlaylistsComponent.css
+│  │  │  └─ ManagePlaylistsComponent.jsx
+│  │  ├─ ManageSongsComponent
+│  │  │  ├─ ManageSongsComponent.css
+│  │  │  └─ ManageSongsComponent.jsx
+│  │  ├─ ManageUsersComponent
+│  │  │  ├─ ManageUsersComponent.css
+│  │  │  └─ ManageUsersComponent.jsx
+│  │  ├─ MusicPlayerComponent
+│  │  │  ├─ MusicPlayer.css
+│  │  │  └─ MusicPlayerComponent.jsx
+│  │  ├─ NavbarComponent
+│  │  │  ├─ NavbarComponent.css
+│  │  │  └─ NavbarComponent.jsx
+│  │  ├─ PlaylistComponent
+│  │  │  ├─ PlaylistComponent.css
+│  │  │  └─ PlaylistComponent.jsx
+│  │  ├─ PlaylistSongsComponent
+│  │  │  ├─ PlaylistSongsComponent.css
+│  │  │  └─ PlaylistSongsComponent.jsx
+│  │  ├─ PremiumNotificationComponent
+│  │  │  └─ PremiumNotificationComponent.jsx
+│  │  ├─ ProfileComponent
+│  │  │  ├─ ProfileComponent.css
+│  │  │  └─ ProfileComponent.jsx
+│  │  ├─ RegisterComponent
+│  │  │  └─ RegisterComponent.jsx
+│  │  ├─ SongComponent
+│  │  │  ├─ SongComponent.css
+│  │  │  └─ SongComponent.jsx
+│  │  ├─ SongsComponent
+│  │  │  ├─ SongsComponent.css
+│  │  │  ├─ SongsComponent.jsx
+│  │  │  └─ SongsPage.jsx
+│  │  ├─ UserDashboard
+│  │  │  ├─ UserDashboard.css
+│  │  │  └─ UserDashboard.jsx
+│  │  └─ VerificationComponent
+│  │     └─ VerificationComponent.jsx
 │  ├─ contexts
-│  │  └─ AuthContext.jsx
+│  │  ├─ AuthContext.jsx
+│  │  └─ MusicContext.jsx
 │  ├─ css
 │  │  ├─ LeftNavbar.css
-│  │  ├─ MusicPlayer.css
-│  │  ├─ NavbarComponent.css
-│  │  ├─ SongsComponent.css
-│  │  ├─ TopNavbar.css
-│  │  └─ UserDashboard.css
+│  │  └─ TopNavbar.css
 │  ├─ index.css
 │  ├─ main.jsx
-│  └─ ProtectedRoute.jsx
+│  ├─ ProtectedRoute.jsx
+│  └─ routes
+│     └─ ArtistProtectedRoute.jsx
+├─ staticwebapp.config.json
 └─ vite.config.js
 
 ```
+
+## Contributing
+
+1. Fork the repository.
+2. Create a new feature branch (`git checkout -b feature/your-feature`).
+3. Commit your changes (`git commit -m 'Add your feature'`).
+4. Push to the branch (`git push origin feature/your-feature`).
+5. Open a Pull Request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+For detailed documentation, please refer to the source code and comments within the application.
